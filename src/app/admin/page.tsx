@@ -1,0 +1,80 @@
+"use client";
+import {
+  Box,
+  Button,
+  Container,
+  Field,
+  Input,
+  Separator,
+  Tabs,
+} from "@chakra-ui/react";
+import React from "react";
+
+const page = () => {
+  return (
+    <Container className="mx-auto ">
+      <Tabs.Root defaultValue="Movie" variant="line">
+        <Tabs.List className="gap-4 justify-center">
+          <Tabs.Trigger value="Movie">Movie</Tabs.Trigger>
+          <Tabs.Trigger value="Trailer">Trailer</Tabs.Trigger>
+          <Tabs.Trigger value="Actor">Actor</Tabs.Trigger>
+        </Tabs.List>
+        <Tabs.Content value="Movie">
+          <Box className="flex flex-col gap-4 justify-center items-center">
+            <Field.Root>
+              <Field.Label>The name of the movie</Field.Label>
+              <Input
+                className="bg-white text-black p-1 "
+                placeholder="Batman"
+              />
+            </Field.Root>
+
+            <Field.Root>
+              <Field.Label>The year</Field.Label>
+              <Input className="bg-white text-black p-1 " placeholder="2012" />
+            </Field.Root>
+            <Field.Root>
+              <Field.Label>The page</Field.Label>
+              <Input className="bg-white text-black p-1 " placeholder="1" />
+            </Field.Root>
+            <Button
+              variant="surface"
+              className="bg-[#FFC300] p-1 self-end duration-100 hover:scale-95 text-black text-sm uppercase"
+              onClick={() => {
+                fetch(
+                  "https://api.themoviedb.org/3/movie/617126/videos?api_key=57151e3e1701c498708be16e79b32f33"
+                )
+                  .then((res) => res.json())
+                  .then((data) => console.log(data))
+                  .catch(() => alert("Error"));
+              }}
+            >
+              Add to db
+            </Button>
+          </Box>
+          {/* 7a211ada74d8ee23b26b9d4 */}
+        </Tabs.Content>
+        <Tabs.Content value="Trailer">
+          <Box className="flex flex-col gap-4 justify-center items-center">
+            <Field.Root>
+              <Field.Label>The movie id</Field.Label>
+              <Input
+                className="bg-white text-black p-1 "
+                placeholder="Batman"
+              />
+            </Field.Root>
+            <Button
+              variant="surface"
+              className="bg-[#FFC300] p-1 self-end duration-100 hover:scale-95 text-black text-sm uppercase"
+            >
+              Add to db
+            </Button>
+          </Box>
+        </Tabs.Content>
+        <Tabs.Content value="Actor"></Tabs.Content>
+      </Tabs.Root>
+    </Container>
+  );
+};
+
+export default page;
