@@ -1,8 +1,8 @@
-import mongoose from "mongoose";
-interface ICast {
+import mongoose, { Document, Model } from "mongoose";
+interface ICast extends Document {
   tmdb_movie_id: number;
   _id: number;
-  cast: mongoose.Types.ObjectId[];
+  cast: number[];
 }
 const CastSchema = new mongoose.Schema<ICast>({
   tmdb_movie_id: {
@@ -15,11 +15,7 @@ const CastSchema = new mongoose.Schema<ICast>({
     required: true,
     unique: true,
   },
-  cast: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Actor",
-    },
-  ],
+  cast: [Number],
 });
-export const Cast = mongoose.models.Cast ?? mongoose.model("Cast", CastSchema);
+export const Cast: Model<ICast> =
+  mongoose.models.Cast ?? mongoose.model<ICast>("Cast", CastSchema);
