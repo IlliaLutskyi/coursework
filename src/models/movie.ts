@@ -1,4 +1,6 @@
-import mongoose, { Document, Model } from "mongoose";
+"use server";
+import mongoose, { Document, Model, Schema } from "mongoose";
+
 interface IMovie extends Document {
   _id: number;
   title: string;
@@ -11,9 +13,11 @@ interface IMovie extends Document {
   release_date: string;
   vote_average: number;
   vote_count: number;
+  backdrop_path: string;
   poster_path: string;
 }
-const MovieSchema = new mongoose.Schema<IMovie>({
+
+const MovieSchema: Schema = new mongoose.Schema({
   _id: {
     type: Number,
     required: true,
@@ -23,8 +27,20 @@ const MovieSchema = new mongoose.Schema<IMovie>({
     type: String,
     required: true,
   },
-  genre: [Number],
-  cast: Number,
+  genre: [
+    {
+      type: Number,
+      required: true,
+    },
+  ],
+  cast: {
+    type: Number,
+    required: true,
+  },
+  backdrop_path: {
+    type: String,
+    required: true,
+  },
   overview: {
     type: String,
     required: true,
@@ -55,5 +71,6 @@ const MovieSchema = new mongoose.Schema<IMovie>({
     required: true,
   },
 });
+
 export const Movie: Model<IMovie> =
-  mongoose.models.Movie ?? mongoose.model<IMovie>("Movie", MovieSchema);
+  mongoose.models.Movie || mongoose.model<IMovie>("Movie", MovieSchema);

@@ -1,34 +1,47 @@
+"use server";
 import mongoose, { Document, Model } from "mongoose";
 interface IActor extends Document {
-  tmdb_cast_id: number;
   _id: number;
-  character: string;
+  also_known_as: string[];
+  biography: string | "";
+  birthday: string | null;
+  deathday: string;
   name: string;
-  order: number;
   popularity: number;
-  profile_path: string;
+  place_of_birth: string | null;
+  profile_path: string | null;
 }
-export const ActorSchema = new mongoose.Schema<IActor>({
-  tmdb_cast_id: {
-    type: Number,
-    required: true,
-  },
+const ActorSchema = new mongoose.Schema<IActor>({
   _id: {
     type: Number,
     required: true,
     unique: true,
   },
-  character: {
-    type: String,
-    required: true,
-  },
+  also_known_as: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
   name: {
     type: String,
     required: true,
   },
-  order: {
-    type: Number,
-    required: true,
+  biography: {
+    type: String,
+    default: "",
+  },
+  birthday: {
+    type: String,
+    default: null,
+  },
+  deathday: {
+    type: String,
+    default: null,
+  },
+  place_of_birth: {
+    type: String,
+    default: null,
   },
   popularity: {
     type: Number,
@@ -36,8 +49,8 @@ export const ActorSchema = new mongoose.Schema<IActor>({
   },
   profile_path: {
     type: String,
-    required: true,
+    default: null,
   },
 });
 export const Actor: Model<IActor> =
-  mongoose.models.Actor ?? mongoose.model<IActor>("Actor", ActorSchema);
+  mongoose.models.Actor || mongoose.model<IActor>("Actor", ActorSchema);

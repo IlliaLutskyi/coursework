@@ -1,3 +1,4 @@
+"use server";
 import mongoose, { Document, Model } from "mongoose";
 
 interface IGenre extends Document {
