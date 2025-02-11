@@ -2,7 +2,14 @@ import { Actor } from "../models/actor";
 import { Cast } from "../models/cast";
 import { Movie } from "../models/movie";
 import connectDb from "./db";
-
+const TMDB_API_KEY: string = process.env.TMDB_API_KEY as string;
+const options = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization: `Bearer ${process.env.TMDB_TOKEN}`,
+  },
+};
 type TActor = {
   id: number;
   also_known_as: string[];
@@ -49,6 +56,7 @@ type TMovieData = {
   page: number;
   results: TMovie[];
 };
+
 async function getMovieData(page?: string): Promise<TMovieData> {
   const options = {
     method: "GET",
@@ -66,14 +74,6 @@ async function getMovieData(page?: string): Promise<TMovieData> {
 }
 
 async function getCastData(movieId: number): Promise<TCastData> {
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${process.env.TMDB_TOKEN}`,
-    },
-  };
-  const TMDB_API_KEY: string = process.env.TMDB_API_KEY as string;
   const res = await fetch(
     `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${TMDB_API_KEY}`,
     options
@@ -82,14 +82,6 @@ async function getCastData(movieId: number): Promise<TCastData> {
   return castData;
 }
 async function getTrailerData(movieId: number): Promise<TTrailerData> {
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${process.env.TMDB_TOKEN}`,
-    },
-  };
-  const TMDB_API_KEY: string = process.env.TMDB_API_KEY as string;
   const res = await fetch(
     `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${TMDB_API_KEY}`,
     options
@@ -98,13 +90,6 @@ async function getTrailerData(movieId: number): Promise<TTrailerData> {
   return trailerData;
 }
 async function getActorData(actorId: number): Promise<TActor> {
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${process.env.TMDB_TOKEN}`,
-    },
-  };
   const res = await fetch(
     `https://api.themoviedb.org/3/person/${actorId}?language=en-US`,
     options
