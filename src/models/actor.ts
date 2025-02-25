@@ -1,6 +1,6 @@
 "use server";
 import mongoose, { Document, Model } from "mongoose";
-interface IActor extends Document {
+export type TActor = {
   _id: number;
   also_known_as: string[];
   biography: string | "";
@@ -10,12 +10,12 @@ interface IActor extends Document {
   popularity: number;
   place_of_birth: string | null;
   profile_path: string | null;
-}
-const ActorSchema = new mongoose.Schema<IActor>({
+};
+type TActorSchema = TActor & Document;
+const ActorSchema = new mongoose.Schema<TActorSchema>({
   _id: {
     type: Number,
     required: true,
-    unique: true,
   },
   also_known_as: [
     {
@@ -52,5 +52,5 @@ const ActorSchema = new mongoose.Schema<IActor>({
     default: null,
   },
 });
-export const Actor: Model<IActor> =
-  mongoose.models.Actor || mongoose.model<IActor>("Actor", ActorSchema);
+export const Actor: Model<TActorSchema> =
+  mongoose.models.Actor || mongoose.model<TActorSchema>("Actor", ActorSchema);

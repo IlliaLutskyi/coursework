@@ -1,17 +1,6 @@
 "use client";
-import connectDb from "@/lib/db";
 
-import { Movie } from "@/models/movie";
-import {
-  Box,
-  Button,
-  Container,
-  Field,
-  Input,
-  Separator,
-  Tabs,
-} from "@chakra-ui/react";
-import Image from "next/image";
+import { Box, Button, Container, Tabs } from "@chakra-ui/react";
 import React, { useState } from "react";
 
 const page = () => {
@@ -19,35 +8,24 @@ const page = () => {
   return (
     <Container className="mx-auto ">
       <Tabs.Root defaultValue="Movie" variant="line">
-        <Tabs.List className="gap-4 justify-center">
+        <Tabs.List gap="1rem" justifyItems="center" alignItems="center">
           <Tabs.Trigger value="Movie">Movie</Tabs.Trigger>
-          <Tabs.Trigger value="Trailer">Trailer</Tabs.Trigger>
-          <Tabs.Trigger value="Actor">Actor</Tabs.Trigger>
+          <Tabs.Trigger value="Genre">Genre</Tabs.Trigger>
         </Tabs.List>
         <Tabs.Content value="Movie">
-          <Box className="flex flex-col gap-4 justify-center items-center">
-            <Field.Root>
-              <Field.Label>The name of the movie</Field.Label>
-              <Input
-                className="bg-white text-black p-1 "
-                placeholder="Batman"
-              />
-            </Field.Root>
-
-            <Field.Root>
-              <Field.Label>The year</Field.Label>
-              <Input className="bg-white text-black p-1 " placeholder="2012" />
-            </Field.Root>
-            <Field.Root>
-              <Field.Label>The page</Field.Label>
-              <Input className="bg-white text-black p-1 " placeholder="1" />
-            </Field.Root>
+          <Box
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+            gap="1rem"
+          >
             <Button
               variant="surface"
               className="bg-[#FFC300] p-1 self-end duration-100 hover:scale-95 text-black text-sm uppercase"
               onClick={async () => {
                 setLoading((prev) => !prev);
-                const res = await fetch("/api/save/1", { method: "POST" });
+                const res = await fetch(`api/save`, { method: "POST" });
                 const data = await res.json();
                 setLoading((prev) => !prev);
                 if (data?.err) {
@@ -64,24 +42,39 @@ const page = () => {
           </Box>
           {/* 7a211ada74d8ee23b26b9d4 */}
         </Tabs.Content>
-        <Tabs.Content value="Trailer">
-          <Box className="flex flex-col gap-4 justify-center items-center">
-            <Field.Root>
-              <Field.Label>The movie id</Field.Label>
-              <Input
-                className="bg-white text-black p-1 "
-                placeholder="Batman"
-              />
-            </Field.Root>
+        <Tabs.Content value="Genre">
+          <Box
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+            gap="1rem"
+          >
             <Button
               variant="surface"
               className="bg-[#FFC300] p-1 self-end duration-100 hover:scale-95 text-black text-sm uppercase"
+              onClick={async () => {
+                setLoading((prev) => !prev);
+                const res = await fetch("/api/save", {
+                  method: "POST",
+                });
+
+                const data = await res.json();
+                setLoading((prev) => !prev);
+                if (data?.err) {
+                  console.error(data.err);
+                }
+                alert(data.message);
+              }}
+              loading={loading}
+              spinnerPlacement="start"
+              loadingText="saving..."
             >
               Add to db
             </Button>
           </Box>
+          {/* 7a211ada74d8ee23b26b9d4 */}
         </Tabs.Content>
-        <Tabs.Content value="Actor"></Tabs.Content>
       </Tabs.Root>
     </Container>
   );

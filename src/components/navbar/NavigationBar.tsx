@@ -15,29 +15,46 @@ import { CiMenuBurger } from "react-icons/ci";
 import { InputGroup } from "../ui/input-group";
 const NavigationBar = () => {
   return (
-    <Box>
-      <Flex direction="row" className="p-3 gap-4  items-baseline">
-        <Icon fontSize="2xl" className="self-center">
+    <Box color="white">
+      <Flex
+        direction="row"
+        alignItems="baseline"
+        background="black"
+        padding="0.75rem"
+        gap="1rem"
+      >
+        <Icon fontSize="2xl" alignSelf="center">
           <CiMenuBurger />
         </Icon>
-        <Text className="bg-yellow-200 text-black p-1 rounded-lg font-mono text-lg">
+        <Text
+          background="linear-gradient(#eeaeca,#94bbe9)"
+          color="black"
+          backgroundClip={"text"}
+          padding="0.25rem"
+          rounded="lg"
+          fontFamily="revert"
+          fontSize="large"
+        >
           Spook
         </Text>
         <InputGroup
           endElement={<CiSearch />}
-          className="bg-white text-black rounded-md flex-grow "
+          background="white"
+          color="black"
+          borderRadius="lg"
+          flexGrow="1"
         >
           <Input
-            className="focus:border focus:border-yellow-500 
-            focus:border-x-2 
-             focus:border-y-2 outline-none"
+            outline="none"
+            _focus={{ border: "2px solid yellow", borderRadius: "lg" }}
             placeholder="Search for a movie"
           />
         </InputGroup>
 
         <Button
           variant="outline"
-          className="p-2 hover:bg-white hover:bg-opacity-15"
+          padding="0.25"
+          _hover={{ background: "white", opacity: "0.15" }}
         >
           Sign in
         </Button>

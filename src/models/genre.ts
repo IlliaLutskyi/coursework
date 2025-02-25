@@ -1,17 +1,17 @@
 "use server";
 import mongoose, { Document, Model } from "mongoose";
 
-interface IGenre extends Document {
+export type TGenre = {
   _id: number;
   name: string;
-}
-const GenreSchema = new mongoose.Schema<IGenre>({
+};
+type TGenreSchema = TGenre & Document;
+const GenreSchema = new mongoose.Schema<TGenreSchema>({
   _id: {
     type: Number,
     required: true,
-    unique: true,
   },
   name: { type: String, required: true },
 });
-export const Genre: Model<IGenre> =
-  mongoose.models.Genre ?? mongoose.model<IGenre>("Genre", GenreSchema);
+export const Genre: Model<TGenreSchema> =
+  mongoose.models.Genre ?? mongoose.model<TGenreSchema>("Genre", GenreSchema);

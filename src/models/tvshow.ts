@@ -1,27 +1,30 @@
-"use server";
 import mongoose, { Document, Model } from "mongoose";
-
-export type TMovie = {
+export type TTVshow = {
   _id: number;
   title: string;
   genre: number[];
-  cast: number;
   overview: string;
   popularity: number;
   trailer_id: string;
   release_date: string;
+  media_type: string;
   vote_average: number;
   vote_count: number;
   backdrop_path: string;
   poster_path: string;
+  origin_country: string[];
 };
-type TMovieSchema = TMovie & Document;
-const MovieSchema = new mongoose.Schema<TMovieSchema>({
+type TTVshowSchema = TTVshow & Document;
+const TVshowSchema = new mongoose.Schema<TTVshowSchema>({
   _id: {
     type: Number,
     required: true,
   },
   title: {
+    type: String,
+    required: true,
+  },
+  media_type: {
     type: String,
     required: true,
   },
@@ -31,10 +34,6 @@ const MovieSchema = new mongoose.Schema<TMovieSchema>({
       required: true,
     },
   ],
-  cast: {
-    type: Number,
-    required: true,
-  },
   trailer_id: {
     type: String,
     unique: true,
@@ -69,7 +68,8 @@ const MovieSchema = new mongoose.Schema<TMovieSchema>({
     type: String,
     required: true,
   },
+  origin_country: [String],
 });
-
-export const Movie: Model<TMovieSchema> =
-  mongoose.models.Movie || mongoose.model<TMovieSchema>("Movie", MovieSchema);
+export const TVshow: Model<TTVshowSchema> =
+  mongoose.models.TVshow ??
+  mongoose.model<TTVshowSchema>("TVshow", TVshowSchema);

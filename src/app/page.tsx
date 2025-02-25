@@ -1,23 +1,14 @@
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { Box, Container } from "@chakra-ui/react";
+import Header from "@/components/home/Header";
+import { Box } from "@chakra-ui/react";
+import Content from "@/components/home/Content";
+import TrailerPopup from "@/components/TrailerPopup";
+
 export default function Home() {
   return (
-    <Container className="mx-auto" centerContent>
-      <Carousel>
-        <CarouselContent>
-          <CarouselItem></CarouselItem>
-          <CarouselItem></CarouselItem>
-          <CarouselItem></CarouselItem>
-        </CarouselContent>
-        <CarouselNext></CarouselNext>
-        <CarouselPrevious></CarouselPrevious>
-      </Carousel>
-    </Container>
+    <Box display="flex" flexDirection={"column"} gap="2rem">
+      <Header></Header>
+      <Content />
+      <TrailerPopup />
+    </Box>
   );
 }
