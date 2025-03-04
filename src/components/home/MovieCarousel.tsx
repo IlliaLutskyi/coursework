@@ -6,6 +6,7 @@ import Link from "next/link";
 import { TFetchedMovies } from "./Content";
 import { Box, Em, Image, Text } from "@chakra-ui/react";
 import { Mousewheel } from "swiper/modules";
+import MovieImage from "../Image";
 const MovieCarousel = ({
   movies,
 }: {
@@ -15,14 +16,14 @@ const MovieCarousel = ({
     <Swiper
       modules={[Mousewheel]}
       slidesPerView={2}
-      spaceBetween={5}
+      spaceBetween={10}
       mousewheel={{ forceToAxis: true }}
       grabCursor={true}
       simulateTouch={true}
       touchRatio={2}
       direction="horizontal"
       breakpoints={{
-        640: { slidesPerView: 3, spaceBetween: 10 },
+        640: { slidesPerView: 3, spaceBetween: 20 },
         768: { slidesPerView: 4, spaceBetween: 20 },
         1024: { slidesPerView: 6, spaceBetween: 30 },
       }}
@@ -39,9 +40,7 @@ const MovieCarousel = ({
                 <Box>
                   <Image
                     src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
-                    className="sm:w-[250px] w-[200px] "
-                    rounded={"lg"}
-                    m="auto"
+                    className="w-[220px] h-[270px] m-auto rounded-md"
                   />
                 </Box>
                 <Box textAlign={"center"}>

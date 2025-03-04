@@ -6,7 +6,7 @@ import TrailerPopup from "@/components/TrailerPopup";
 export default function Home() {
   return (
     <Box display="flex" flexDirection={"column"} gap="2rem">
-      <Header></Header>
+      <Header />
       <Content />
       <TrailerPopup />
     </Box>

@@ -21,7 +21,7 @@ const Header = () => {
         textAlign={"center"}
         className="sm:text-[1.5rem] text-[1rem]"
       >
-        Welcome to Spook – Your Ultimate Destination for Movies!
+        Welcome to Spook – Your Ultimate Destination for Movies Info!
       </Text>
       <InputGroup
         endElement={<CiSearch className="hover:scale-125" />}

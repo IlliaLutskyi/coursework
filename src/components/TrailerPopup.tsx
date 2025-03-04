@@ -14,7 +14,7 @@ const TrailerPopup = () => {
       {isOpen ? (
         <>
           <Box className="fixed inset-0 w-screen h-screen bg-black bg-opacity-40 z-50" />
-          <Box className="fixed flex flex-col top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] sm:w-[70vw] w-[100vw] h-[80vh] bg-black rounded-md z-50">
+          <Box className="fixed flex flex-col top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] sm:w-[70vw] w-[100vw] h-[80vh] bg-black rounded-md z-50 ">
             <Box
               display="flex"
               alignItems="baseline"

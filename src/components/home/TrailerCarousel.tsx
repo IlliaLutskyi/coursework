@@ -1,9 +1,9 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Mousewheel } from "swiper/modules";
+import { Mousewheel, Scrollbar } from "swiper/modules";
 import { FaPlay } from "react-icons/fa";
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Skeleton, Text } from "@chakra-ui/react";
 import { TFetchedLatestMovie } from "./Content";
 import { useTrailerPopupStore } from "@/stores/useTrailerPopupStore";
 const TrailerCarousel = ({
@@ -18,10 +18,10 @@ const TrailerCarousel = ({
   const setMovieTitle = useTrailerPopupStore((store) => store.setMovieTitle);
   return (
     <Swiper
-      className="mx-4"
+      className="mx-4 py-4"
       modules={[Mousewheel]}
       slidesPerView={2}
-      spaceBetween={20}
+      spaceBetween={10}
       mousewheel={{ forceToAxis: true }}
       grabCursor={true}
       simulateTouch={true}
@@ -30,7 +30,7 @@ const TrailerCarousel = ({
       breakpoints={{
         640: { slidesPerView: 2, spaceBetween: 20 },
         768: { slidesPerView: 4, spaceBetween: 40 },
-        1024: { slidesPerView: 6, spaceBetween: 80 },
+        1024: { slidesPerView: 5, spaceBetween: 60 },
       }}
     >
       {movies?.map((movie) => {
@@ -43,7 +43,7 @@ const TrailerCarousel = ({
               open();
             }}
           >
-            <Box textAlign={"center"}>
+            <Box className="flex flex-col gap-2 ">
               <Box
                 background={`url('https://image.tmdb.org/t/p/w500${movie.backdrop_path}') center/cover no-repeat`}
                 display={"grid"}
@@ -52,13 +52,13 @@ const TrailerCarousel = ({
                 w={"200px"}
                 rounded={"lg"}
                 className="hover:scale-110
-                  duration-200"
+                duration-200"
                 m="auto"
                 //   onMouseEnter={() => setBackDropPath(movie.backdrop_path)}
               >
                 <FaPlay color="white" />
               </Box>
-              <Text color="white" fontFamily={"fantasy"}>
+              <Text color="white" fontFamily={"fantasy"} m="auto">
                 {movie.title}
               </Text>
             </Box>

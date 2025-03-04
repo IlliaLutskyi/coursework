@@ -72,7 +72,7 @@ const Content = async () => {
 
   return (
     <Box>
-      <Box className="sm:mx-8 mx-4 ">
+      <Box className="sm:mx-8 mx-4">
         <Heading className="text-3xl mb-[2rem]">Trending</Heading>
         <MovieCarousel
           movies={[...trendingMovies, ...tvshows].sort(
@@ -91,7 +91,7 @@ const Content = async () => {
           // setBackDropPath={setBackDropPath}
         />
       </Box>
-      <Box className="sm:mx-8 mx-4 ">
+      <Box className="sm:mx-8 mx-4 mb-2">
         <Heading className="text-3xl mb-[2rem]">Top-Rated Movies</Heading>
         <MovieCarousel movies={topMovies} />
       </Box>

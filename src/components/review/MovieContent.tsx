@@ -1,9 +1,9 @@
 import { TMovie } from "@/models/movie";
 import { TTVshow } from "@/models/tvshow";
 import { Box, Heading, Text } from "@chakra-ui/react";
-import Image from "next/image";
 import React from "react";
 import PlayTrailerButton from "./PlayTrailerButton";
+import OptimizedImage from "../Image";
 type props = {
   movie: TMovie | null | TTVshow;
   type: string;
@@ -12,20 +12,17 @@ type props = {
 const MovieContent = ({ movie, type, genres }: props) => {
   return (
     <Box
-      className="flex  sm:flex-row flex-col gap-8 w-[100%] text-white p-8 "
+      className="grid sm:grid-cols-[1fr,4fr] gap-8 w-[100%] text-white p-8 "
       bg={`linear-gradient(rgba(0,0,0,0.7) , rgba(0,0,0,0.7) ),url("https://image.tmdb.org/t/p/original${movie?.backdrop_path}") center/cover no-repeat `}
     >
-      <Box className="w:[40%] ">
-        <Image
-          src={`https://image.tmdb.org/t/p/original${movie?.poster_path}`}
-          alt=""
-          width={1000}
-          height={1000}
-          className="rounded-md w-full"
+      <Box>
+        <OptimizedImage
+          path={`https://image.tmdb.org/t/p/w300${movie?.poster_path}`}
+          className="sm:w-full w-1/2 m-auto rounded-md"
         />
       </Box>
 
-      <Box className="w:[60%] flex flex-col gap-4 ">
+      <Box className="flex flex-col gap-4 ">
         <Box>
           <Heading className="font-bold text-3xl">
             {movie?.title}

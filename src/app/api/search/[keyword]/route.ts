@@ -1,22 +1,24 @@
 import { Movie } from "@/models/movie";
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 interface IParams {
-  title: string;
+  keyword: string;
 }
 export async function GET(req: Request, { params }: { params: IParams }) {
-  const { title } = await params;
+  const { keyword } = await params;
   try {
     const movies = await Movie.find({
-      title: { $regex: `^${title}`, $options: "i" },
+      title: { $regex: `^${keyword}`, $options: "i" },
     })
-      .limit(5)
+      .select({ _id: 1, title: 1 })
+      .limit(10)
       .lean();
     if (!movies) {
-      throw new Error(`No movie with title ${title}`);
+      throw new Error(`No results`);
     }
-    return NextResponse.json({ movies });
+    return NextResponse.json({ movies, err: "" });
   } catch (err) {
     return NextResponse.json({
+      movies: null,
       err: err instanceof Error ? err.message : "Server Error",
     });
   }
