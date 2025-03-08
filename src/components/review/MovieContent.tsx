@@ -3,7 +3,7 @@ import { TTVshow } from "@/models/tvshow";
 import { Box, Heading, Text } from "@chakra-ui/react";
 import React from "react";
 import PlayTrailerButton from "./PlayTrailerButton";
-import OptimizedImage from "../Image";
+import OptimizedImage from "../OptimizedImage";
 type props = {
   movie: TMovie | null | TTVshow;
   type: string;

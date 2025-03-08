@@ -1,12 +1,7 @@
 "use client";
-import React, {
-  ChangeEvent,
-  EventHandler,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { InputGroup } from "../ui/input-group";
+import { redirect } from "next/navigation";
 import { CiSearch } from "react-icons/ci";
 import { Box, Input, Text } from "@chakra-ui/react";
 import Results from "./Results";
@@ -17,6 +12,12 @@ const SearchBox = () => {
   const [keyword, setKeyword] = useState("");
   const { movies, setMovies, loading, error } = useSearchHints(keyword);
   const searchRef = useRef<HTMLDivElement | null>(null);
+  const handleKey = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key.toLocaleLowerCase() === "enter") {
+      setKeyword("");
+      redirect(`/reviews?keyword=${keyword}`);
+    }
+  };
   const handleClickOutside = (event: MouseEvent) => {
     if (
       searchRef.current &&
@@ -53,10 +54,11 @@ const SearchBox = () => {
           className="bg-blue-100  rounded-md"
           id="input"
           value={keyword}
+          onKeyDown={handleKey}
           onChange={(e) => setKeyword(e.target.value)}
         />
       </InputGroup>
-      <Results movies={movies} setKeyword={setKeyword} />
+      <Results movies={movies} setKeyword={setKeyword} err={error} />
     </Box>
   );
 };

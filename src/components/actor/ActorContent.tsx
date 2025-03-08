@@ -1,6 +1,6 @@
 import { TActor } from "@/models/actor";
 import { Box, Heading, Text } from "@chakra-ui/react";
-import OptimizedImage from "../Image";
+import OptimizedImage from "../OptimizedImage";
 
 type props = {
   actor: Omit<TActor, "_id"> | null;

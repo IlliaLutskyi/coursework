@@ -6,11 +6,14 @@ import { CiSearch } from "react-icons/ci";
 type props = {
   movies: Pick<TMovie, "_id" | "title">[] | null | undefined;
   setKeyword: React.Dispatch<React.SetStateAction<string>>;
+  err: string;
 };
-const Results = ({ movies, setKeyword }: props) => {
+const Results = ({ movies, setKeyword, err }: props) => {
   return (
     <Box className="absolute w-full bg-white shadow-lg text-black z-50">
       {movies &&
+        movies.length > 0 &&
+        !err &&
         movies.map((movie, index) => {
           return (
             <Link
@@ -27,6 +30,11 @@ const Results = ({ movies, setKeyword }: props) => {
             </Link>
           );
         })}
+      {err && (
+        <Box className=" p-2 ">
+          <Text className="text-sm font-black">{err}</Text>
+        </Box>
+      )}
     </Box>
   );
 };

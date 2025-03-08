@@ -12,14 +12,17 @@ export async function GET(req: Request, { params }: { params: IParams }) {
       .select({ _id: 1, title: 1 })
       .limit(10)
       .lean();
-    if (!movies) {
+    if (movies.length === 0) {
       throw new Error(`No results`);
     }
     return NextResponse.json({ movies, err: "" });
   } catch (err) {
-    return NextResponse.json({
-      movies: null,
-      err: err instanceof Error ? err.message : "Server Error",
-    });
+    return NextResponse.json(
+      {
+        movies: null,
+        err: err instanceof Error ? err.message : "Server Error",
+      },
+      { status: 404 }
+    );
   }
 }
