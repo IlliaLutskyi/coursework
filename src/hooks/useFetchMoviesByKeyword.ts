@@ -24,18 +24,18 @@ export function useFetchMoviesByKeyword(
         const data: {
           movies: movies | null;
           amount_of_movies: number;
-          err: string;
+          message: string;
         } = await res.json();
         if (!res.ok) {
-          throw new Error(data.err);
+          return setError(data.message);
         }
         setMovies(data.movies);
         setAmountOfMovies(data.amount_of_movies);
       } catch (err) {
         if (err instanceof Error && err.name !== "AbortError")
-          setError(err.message);
+          return setError(err.message);
       } finally {
-        setLoading(false);
+        return setLoading(false);
       }
     }
     if (keyword) {

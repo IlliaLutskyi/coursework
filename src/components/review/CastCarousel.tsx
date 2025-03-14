@@ -31,7 +31,10 @@ const CastCarousel = ({ cast }: props) => {
     >
       {cast?.map((character, index) => {
         return (
-          <SwiperSlide key={index} className="h-[400px] cursor-pointer pb-8">
+          <SwiperSlide
+            key={index}
+            className="sm:h-[400px] h-[425px] cursor-pointer pb-8"
+          >
             <Link href={`/actor/${character.id}`}>
               <Card.Root
                 h="full"

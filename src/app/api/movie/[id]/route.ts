@@ -9,12 +9,18 @@ export async function GET(req: Request, { params }: { params: IParams }) {
   try {
     const movie = await Movie.findById(id).lean();
     if (!movie) {
-      throw new Error(`No movie with id ${id}`);
+      return NextResponse.json(
+        { message: `No movie with id ${id}` },
+        { status: 404 }
+      );
     }
     return NextResponse.json({ movie });
   } catch (err) {
-    return NextResponse.json({
-      err: err instanceof Error ? err.message : "Server Error",
-    });
+    return NextResponse.json(
+      {
+        message: err instanceof Error ? err.message : "Server Error",
+      },
+      { status: 500 }
+    );
   }
 }

@@ -4,7 +4,8 @@ import MoviesList from "@/components/reviews/MoviesList";
 import Pagination from "@/components/reviews/Pagination";
 import { useFetchMoviesByKeyword } from "@/hooks/useFetchMoviesByKeyword";
 import { TMovie } from "@/models/movie";
-import { Box } from "@chakra-ui/react";
+import ClipLoader from "react-spinners/ClipLoader";
+import { Box, Spinner } from "@chakra-ui/react";
 
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
@@ -22,28 +23,26 @@ const page = () => {
     keyword,
     page
   );
-  if (!keyword)
-    return (
-      <Box className="text-center">
-        There are no movies that matches your query
-      </Box>
-    );
-  if (error) return <Box className="text-center">{error}</Box>;
+  if (!keyword) return <Box>There are no movies that matches your query</Box>;
+  if (error) return <Box>{error}</Box>;
+  if (loading) return <ClipLoader color="black" loading={loading} size={20} />;
   return (
     <Box className="flex flex-col gap-4">
       <Box>
         <MoviesList movies={movies} />
       </Box>
       <Box className="flex-grow self-center mb-2">
-        <Pagination
-          page={page ? Number(page) : 1}
-          pageSize={15}
-          count={amountOfMovies}
-          defaultPage={1}
-          onPageChange={(e) =>
-            router.push(`/reviews?keyword=${keyword}&page=${e.page}`)
-          }
-        />
+        {amountOfMovies !== 0 && (
+          <Pagination
+            page={page ? Number(page) : 1}
+            pageSize={15}
+            count={amountOfMovies}
+            defaultPage={1}
+            onPageChange={(e) =>
+              router.push(`/reviews?keyword=${keyword}&page=${e.page}`)
+            }
+          />
+        )}
       </Box>
     </Box>
   );

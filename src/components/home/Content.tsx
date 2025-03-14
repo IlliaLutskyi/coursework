@@ -4,72 +4,19 @@ import TrailerCarousel from "./TrailerCarousel";
 import { TVshow } from "@/models/tvshow";
 import { Movie } from "@/models/movie";
 import connectDb from "@/lib/db";
-export type TFetchedMovies = {
-  _id: number;
-  title: string;
-  release_date: string;
-  popularity: number;
-  media_type?: string;
-  poster_path: string;
+import { TFetchedLatestMovie, TFetchedMovies } from "@/app/page";
+type props = {
+  trendingMovies: TFetchedMovies[];
+  tvshows: TFetchedMovies[];
+  latestMovies: TFetchedLatestMovie[];
+  topMovies: TFetchedMovies[];
 };
-export type TFetchedLatestMovie = {
-  _id: number;
-  title: string;
-  trailer_id: string;
-  backdrop_path: string;
-};
-const Content = async () => {
-  await connectDb();
-  const [topMovies, trendingMovies, latestMovies, tvshows]: [
-    topMovies: TFetchedMovies[],
-    trendingMovies: TFetchedMovies[],
-    latestMovies: TFetchedLatestMovie[],
-    tvshows: TFetchedMovies[]
-  ] = await Promise.all([
-    Movie.find({
-      vote_average: { $gt: 8 },
-    })
-      .select({
-        _id: 1,
-        title: 1,
-        release_date: 1,
-        poster_path: 1,
-      })
-      .lean(),
-    Movie.find({
-      popularity: { $gt: 1000 },
-    })
-      .select({
-        _id: 1,
-        title: 1,
-        release_date: 1,
-        poster_path: 1,
-        popularity: 1,
-      })
-      .lean(),
-    Movie.find({
-      release_date: { $regex: `^2025` },
-      vote_average: { $gt: 8 },
-    })
-      .select({
-        _id: 1,
-        trailer_id: 1,
-        backdrop_path: 1,
-        title: 1,
-      })
-      .lean(),
-    TVshow.find()
-      .select({
-        _id: 1,
-        title: 1,
-        release_date: 1,
-        media_type: 1,
-        popularity: 1,
-        poster_path: 1,
-      })
-      .lean(),
-  ]);
-
+const Content = async ({
+  trendingMovies,
+  topMovies,
+  tvshows,
+  latestMovies,
+}: props) => {
   return (
     <Box>
       <Box className="sm:mx-8 mx-4">

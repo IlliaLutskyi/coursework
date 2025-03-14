@@ -47,7 +47,7 @@ const page = async ({ params }: props) => {
         actor.birthday ||
         actor.place_of_birth ||
         actor.deathday) && <Info actor={actor} />}
-      {movies && (
+      {movies && movies.length !== 0 && (
         <Box className="mx-8 my-2">
           <Heading className="text-lg font-bold mb-2">Known For</Heading>
           <KnownForSwiper movies={movies} />

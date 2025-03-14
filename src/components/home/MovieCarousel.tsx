@@ -3,10 +3,9 @@ import React, { useState } from "react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import Link from "next/link";
-import { TFetchedMovies } from "./Content";
+import { TFetchedMovies } from "@/app/page";
 import { Box, Em, Image, Text } from "@chakra-ui/react";
 import { Mousewheel } from "swiper/modules";
-import MovieImage from "../OptimizedImage";
 import SwiperSkeleton from "../SwiperSkeleton";
 const MovieCarousel = ({
   movies,
@@ -38,9 +37,9 @@ const MovieCarousel = ({
           1024: { slidesPerView: 6, spaceBetween: 30 },
         }}
       >
-        {movies?.map((movie) => {
+        {movies?.map((movie, index) => {
           return (
-            <SwiperSlide key={movie._id}>
+            <SwiperSlide key={index}>
               <Link
                 href={`/review/${
                   movie?.media_type ? movie.media_type : "movie"

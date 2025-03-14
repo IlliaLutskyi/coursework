@@ -1,4 +1,3 @@
-import { TMovie } from "@/models/movie";
 import { Box, Em, Heading, Text } from "@chakra-ui/react";
 import React from "react";
 import OptimizedImage from "../OptimizedImage";
@@ -13,9 +12,8 @@ const MoviesList = ({ movies }: props) => {
     <Box className="flex flex-col gap-4 p-2">
       {movies?.map((movie, index) => {
         return (
-          <Link href={`/review/movie/${movie._id}`}>
+          <Link key={index} href={`/review/movie/${movie._id}`}>
             <Box
-              key={index}
               className="grid sm:grid-cols-[1fr_6fr] 
             grid-cols-[1fr_3fr] shadow-md  gap-2"
             >

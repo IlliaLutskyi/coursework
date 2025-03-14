@@ -6,23 +6,35 @@ interface IParams {
 export async function GET(req: Request, { params }: { params: IParams }) {
   const { keyword } = await params;
   try {
-    const movies = await Movie.find({
-      title: { $regex: `^${keyword}`, $options: "i" },
-    })
-      .select({ _id: 1, title: 1 })
+    const movies = await Movie.aggregate([
+      {
+        $search: {
+          index: "default",
+          text: {
+            query: keyword,
+            path: ["title"],
+            fuzzy: { maxEdits: 2 },
+          },
+        },
+      },
+    ])
+      .project({ _id: 1, title: 1 })
       .limit(10)
-      .lean();
+      .exec();
     if (movies.length === 0) {
-      throw new Error(`No results`);
+      return NextResponse.json(
+        { movies: null, message: `No results` },
+        { status: 404 }
+      );
     }
     return NextResponse.json({ movies, err: "" });
   } catch (err) {
     return NextResponse.json(
       {
         movies: null,
-        err: err instanceof Error ? err.message : "Server Error",
+        message: err instanceof Error ? err.message : "Server Error",
       },
-      { status: 404 }
+      { status: 500 }
     );
   }
 }

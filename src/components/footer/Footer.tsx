@@ -3,7 +3,9 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <Box w="100%" py="2rem" bg="black" color="white" textAlign={"center"}></Box>
+    <Box w="100%" py="2rem" bg="black" color="white" textAlign={"center"}>
+      Resources
+    </Box>
   );
 };
 

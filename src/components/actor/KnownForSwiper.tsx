@@ -28,9 +28,9 @@ const KnownForSwiper = ({ movies }: props) => {
         1024: { slidesPerView: 6, spaceBetween: 10 },
       }}
     >
-      {movies?.map((movie) => {
+      {movies?.map((movie, index) => {
         return (
-          <SwiperSlide key={movie._id} className="mb-4">
+          <SwiperSlide key={index} className="mb-4">
             <Link href={`/review/movie/${movie._id}`}>
               <Box>
                 <Box>

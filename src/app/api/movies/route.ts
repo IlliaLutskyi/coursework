@@ -8,10 +8,19 @@ export async function GET(req: Request) {
   const page = searchParams.get("page");
   const skip = (Number(page) - 1) * 15;
   try {
-    const movies = await Movie.find({
-      title: { $regex: `^${keyword}`, $options: "i" },
-    })
-      .select({
+    const movies = await Movie.aggregate([
+      {
+        $search: {
+          index: "default",
+          text: {
+            query: keyword,
+            path: ["title"],
+            fuzzy: { maxEdits: 2 },
+          },
+        },
+      },
+    ])
+      .project({
         _id: 1,
         title: 1,
         poster_path: 1,
@@ -20,9 +29,16 @@ export async function GET(req: Request) {
       })
       .skip(skip)
       .limit(15)
-      .lean();
+      .exec();
     if (movies.length === 0) {
-      throw new Error("There are no movies that matches your query");
+      return NextResponse.json(
+        {
+          movies: null,
+          amount_of_movies: 0,
+          message: "There are no movies that matches your query",
+        },
+        { status: 404 }
+      );
     }
 
     const amount_of_movies = await Movie.countDocuments({
@@ -34,9 +50,9 @@ export async function GET(req: Request) {
       {
         movies: null,
         amount_of_movies: 0,
-        err: err instanceof Error ? err.message : "Something went wrong ",
+        message: err instanceof Error ? err.message : "Something went wrong ",
       },
-      { status: 404 }
+      { status: 500 }
     );
   }
 }

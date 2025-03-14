@@ -9,6 +9,7 @@ import { Provider as ChakraProvider } from "@/components/ui/provider";
 import Footer from "@/components/footer/Footer";
 export const metadata: Metadata = {
   title: "Spook",
+  icons: "/images/SiteLogo.png",
 };
 
 export default function RootLayout({

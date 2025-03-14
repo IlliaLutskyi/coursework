@@ -15,10 +15,10 @@ export function useSearchHints(keyword: string) {
         const res = await fetch(`/api/search/${keyword}`, { signal });
         const data: {
           movies: Pick<TMovie, "_id" | "title">[] | null;
-          err: string;
+          message: string;
         } = await res.json();
         if (!res.ok) {
-          throw new Error(data.err);
+          return setError(data.message);
         }
         setMovies(data.movies);
       } catch (err) {

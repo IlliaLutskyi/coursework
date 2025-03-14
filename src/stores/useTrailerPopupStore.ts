@@ -6,13 +6,13 @@ type InitialStates = {
   movie_title: string;
 };
 
-type PopUpActions = {
+type PopupActions = {
   toggle: () => void;
   setTrailerId: (id: string) => void;
   setMovieTitle: (title: string) => void;
 };
 
-type TrailerPopupStore = InitialStates & PopUpActions;
+type TrailerPopupStore = InitialStates & PopupActions;
 
 const initialStates: InitialStates = {
   trailer_id: "",

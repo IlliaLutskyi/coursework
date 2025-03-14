@@ -4,8 +4,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Mousewheel, Scrollbar } from "swiper/modules";
 import { FaPlay } from "react-icons/fa";
 import { Box, Skeleton, Text } from "@chakra-ui/react";
-import { TFetchedLatestMovie } from "./Content";
 import { useTrailerPopupStore } from "@/stores/useTrailerPopupStore";
+import { TFetchedLatestMovie } from "@/app/page";
 const TrailerCarousel = ({
   movies,
 }: //   setBackDropPath,
