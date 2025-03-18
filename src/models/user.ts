@@ -1,21 +1,24 @@
-import mongoose, { Document } from "mongoose";
-import { Model } from "mongoose";
+import mongoose, { Document, Model } from "mongoose";
+
 type TUser = {
   name: string;
   email: string;
   password: string;
   isVerified: boolean;
   verificationToken: string;
-  verificationTokenExpiry: mongoose.Schema.Types.Date;
 };
-const userSchema = new mongoose.Schema<TUser>({
+type TUserSchema = TUser & Document;
+const userSchema = new mongoose.Schema<TUserSchema>({
   name: {
     type: String,
     required: true,
+    maxlength: 50,
   },
   email: {
     type: String,
     required: true,
+    unique: true,
+    maxlength: 50,
   },
   password: {
     type: String,
@@ -29,7 +32,6 @@ const userSchema = new mongoose.Schema<TUser>({
     type: String,
     default: "",
   },
-  verificationTokenExpiry: Date,
 });
-const User: Model<TUser> =
-  mongoose.models.User ?? mongoose.model<TUser>("User", userSchema);
+export const User: Model<TUserSchema> =
+  mongoose.models.User ?? mongoose.model<TUserSchema>("User", userSchema);
