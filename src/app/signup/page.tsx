@@ -1,9 +1,18 @@
 "use client";
-import { Box, Button, Field, Heading, Input, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Field,
+  Heading,
+  Input,
+  Separator,
+  Text,
+} from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import PreviousMap_ from "postcss/lib/previous-map";
 import React, { FormEvent, KeyboardEvent, useEffect, useState } from "react";
-
+import { FcGoogle } from "react-icons/fc";
+import { BsGithub } from "react-icons/bs";
 const Signup = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -56,7 +65,7 @@ const Signup = () => {
   }
   return (
     <form
-      className="flex flex-col gap-4 justify-center sm:w-1/2 w-3/4 mx-auto shadow-2xl my-10 p-4 bg-white rounded-md"
+      className="flex flex-col gap-2 justify-center sm:w-1/2 w-3/4 mx-auto shadow-2xl my-5 p-4 bg-white rounded-md "
       onSubmit={handleSubmit}
       onKeyDown={(e) => {
         if (e.key.toLowerCase() === "enter") {
@@ -128,6 +137,17 @@ const Signup = () => {
       >
         {loading ? "Submiting..." : " Submit"}
       </Button>
+      <Box className="relative flex flex-col gap-4 justify-center  items-center mt-2 border-black border-t-[1px] w-full">
+        <Heading className="absolute top-[-17%] text-black bg-white px-2">
+          or
+        </Heading>
+        <Button className="px-4 py-2 shadow-md hover:shadow-xl mt-4 hover:scale-105 text-black">
+          <FcGoogle className="mr-2" /> Sign in with google
+        </Button>
+        <Button className="px-4 py-2 shadow-md hover:shadow-xl hover:scale-105 text-black">
+          <BsGithub className="mr-2" /> Sign in with github
+        </Button>
+      </Box>
     </form>
   );
 };

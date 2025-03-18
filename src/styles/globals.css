@@ -70,3 +70,26 @@
     @apply bg-background text-foreground;
   }
 }
+#scroll_container::-webkit-scrollbar {
+  width: 100%; /* Set scrollbar width */
+  height: 10px;
+}
+
+#scroll_container::-webkit-scrollbar-thumb {
+  background-color: rgba(
+    128,
+    128,
+    128,
+    0.377
+  ); /* Change the scrollbar thumb color */
+  border-radius: 10px; /* Make it rounded */
+}
+
+#scroll_container::-webkit-scrollbar-track {
+  background-color: rgba(
+    23,
+    22,
+    22,
+    0.13
+  ); /* Change the scrollbar track color */
+}
