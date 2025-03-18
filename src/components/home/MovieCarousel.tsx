@@ -7,6 +7,7 @@ import { TFetchedMovies } from "@/app/page";
 import { Box, Em, Image, Text } from "@chakra-ui/react";
 import { Mousewheel } from "swiper/modules";
 import SwiperSkeleton from "../SwiperSkeleton";
+import OptimizedImage from "../OptimizedImage";
 const MovieCarousel = ({
   movies,
 }: {
@@ -18,10 +19,43 @@ const MovieCarousel = ({
   }
   return (
     <>
-      {imagesLoadedCount !== movies?.length && (
+      {/* {imagesLoadedCount !== movies?.length && (
         <SwiperSkeleton amount_of_slides={8} />
-      )}
-      <Swiper
+      )} */}
+      <Box className="flex overflow-x-scroll gap-4 snap-x snap-mandantory w-full p-3">
+        {movies?.map((movie, index) => {
+          return (
+            // <SwiperSlide key={index}>
+            <Link
+              href={`/review/${
+                movie?.media_type ? movie.media_type : "movie"
+              }/${movie._id}`}
+              key={index}
+              className="snap-start w-[200px] flex-shrink-0 "
+            >
+              <Box>
+                <Box>
+                  <OptimizedImage
+                    path={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+                    className="w-full m-auto rounded-md"
+                  />
+                </Box>
+                <Box textAlign={"center"}>
+                  <Text
+                    fontFamily="cursive"
+                    className="font-bold hover:text-blue-400"
+                  >
+                    {movie.title}
+                  </Text>
+                  <Em fontSize={"0.7rem"}>{movie.release_date}</Em>
+                </Box>
+              </Box>
+            </Link>
+            // </SwiperSlide>
+          );
+        })}
+      </Box>
+      {/* <Swiper
         className={`${imagesLoadedCount === movies?.length ? "" : "hidden"}`}
         modules={[Mousewheel]}
         slidesPerView={2}
@@ -67,7 +101,7 @@ const MovieCarousel = ({
             </SwiperSlide>
           );
         })}
-      </Swiper>
+      </Swiper> */}
     </>
   );
 };
