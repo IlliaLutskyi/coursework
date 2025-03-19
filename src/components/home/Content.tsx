@@ -19,7 +19,7 @@ const Content = async ({
 }: props) => {
   return (
     <Box>
-      <Box className="sm:mx-8 mt-4">
+      <Box className="sm:mx-8 mt-4 mx-4">
         <Heading className="text-3xl mb-[2rem]">Trending</Heading>
         <MovieCarousel
           movies={[...trendingMovies, ...tvshows].sort(

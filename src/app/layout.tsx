@@ -1,8 +1,4 @@
 import type { Metadata } from "next";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
 import "@/styles/globals.css";
 import NavigationBar from "@/components/navbar/NavigationBar";
 import { Provider as ChakraProvider } from "@/components/ui/provider";

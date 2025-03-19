@@ -93,3 +93,6 @@
     0.13
   ); /* Change the scrollbar track color */
 }
+#cast_scroll_container::-webkit-scrollbar {
+  display: none;
+}

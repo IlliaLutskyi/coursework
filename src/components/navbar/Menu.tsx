@@ -51,6 +51,7 @@ const Menu = () => {
                 key={index}
                 className="text-white hover:underline"
                 href={link.href}
+                onClick={() => setOpen(false)}
               >
                 {link.title}
               </Link>

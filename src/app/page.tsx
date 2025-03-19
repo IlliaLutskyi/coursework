@@ -49,7 +49,7 @@ export default async function Home() {
       })
       .lean(),
     Movie.find({
-      release_date: { $regex: `^2025` },
+      release_date: { $regex: `^2024|2025` },
       vote_average: { $gt: 8 },
     })
       .select({

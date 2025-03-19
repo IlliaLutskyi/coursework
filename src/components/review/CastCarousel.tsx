@@ -1,71 +1,50 @@
-"use client";
-import React from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Mousewheel, Scrollbar } from "swiper/modules";
 import { TCast } from "@/models/cast";
 import { TTVshowCast } from "@/models/tvshowcast";
-import { Card, Heading, Text } from "@chakra-ui/react";
-import Image from "next/image";
+import { Box, Card, Heading, Text } from "@chakra-ui/react";
 import { FaUserAlt } from "react-icons/fa";
 import Link from "next/link";
+import OptimizedImage from "../OptimizedImage";
 type props = {
   cast: TCast[] | TTVshowCast[] | undefined;
 };
 const CastCarousel = ({ cast }: props) => {
   return (
-    <Swiper
-      modules={[Mousewheel, Scrollbar]}
-      slidesPerView={2}
-      spaceBetween={30}
-      scrollbar={{ hide: true }}
-      mousewheel={{ forceToAxis: true }}
-      grabCursor={true}
-      simulateTouch={true}
-      touchRatio={2}
-      direction="horizontal"
-      breakpoints={{
-        640: { slidesPerView: 3 },
-        768: { slidesPerView: 4 },
-        1024: { slidesPerView: 6 },
-      }}
+    <Box
+      className="flex gap-4 overflow-x-scroll snap-x snap-mandatory"
+      id="cast_scroll_container"
     >
       {cast?.map((character, index) => {
         return (
-          <SwiperSlide
+          <Link
+            href={`/actor/${character.id}`}
             key={index}
-            className="sm:h-[400px] h-[425px] cursor-pointer pb-8"
+            className="snap-center w-[200px] flex-shrink-0 py-3"
           >
-            <Link href={`/actor/${character.id}`}>
-              <Card.Root
-                h="full"
-                className="bg-white border-black border-x-[1px] border-y-[1px] shadow-2xl"
-                maxW="sm"
-                overflow="hidden"
-                gap="0"
-              >
-                {character?.profile_path ? (
-                  <Image
-                    src={`https://image.tmdb.org/t/p/original${character.profile_path}`}
-                    alt=""
-                    width={1000}
-                    height={1000}
-                    className="w-full"
-                  />
-                ) : (
-                  <FaUserAlt className="w-full h-[200px] p-2" color="black" />
-                )}
-                <Card.Body className="text-black w-full">
-                  <Heading className="font-bold text-sm w-full hover:opacity-40">
-                    {character.name}
-                  </Heading>
-                  <Text className="text-sm">{character.character}</Text>
-                </Card.Body>
-              </Card.Root>
-            </Link>
-          </SwiperSlide>
+            <Card.Root
+              h="full"
+              className="bg-white shadow-xl"
+              maxW="sm"
+              overflow="hidden"
+              gap="0"
+            >
+              {character?.profile_path ? (
+                <OptimizedImage
+                  path={`https://image.tmdb.org/t/p/original${character.profile_path}`}
+                />
+              ) : (
+                <FaUserAlt className="w-full h-[200px] p-2" color="black" />
+              )}
+              <Card.Body className="text-black w-full">
+                <Heading className="font-bold text-sm w-full hover:opacity-40">
+                  {character.name}
+                </Heading>
+                <Text className="text-sm">{character.character}</Text>
+              </Card.Body>
+            </Card.Root>
+          </Link>
         );
       })}
-    </Swiper>
+    </Box>
   );
 };
 

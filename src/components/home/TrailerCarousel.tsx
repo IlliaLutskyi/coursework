@@ -18,10 +18,10 @@ const TrailerCarousel = ({
       className="flex gap-20 overflow-x-scroll snap-x snap-mandatory mx-4 py-4"
       id="scroll_container"
     >
-      {movies?.map((movie) => {
+      {movies?.map((movie, index) => {
         return (
           <Box
-            key={movie._id}
+            key={index}
             onClick={() => {
               setTrailerId(movie.trailer_id);
               setMovieTitle(movie.title);
