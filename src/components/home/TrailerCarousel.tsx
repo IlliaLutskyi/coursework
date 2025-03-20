@@ -15,7 +15,7 @@ const TrailerCarousel = ({
   const setMovieTitle = useTrailerPopupStore((store) => store.setMovieTitle);
   return (
     <Box
-      className="flex gap-20 overflow-x-scroll snap-x snap-mandatory mx-4 py-4"
+      className="flex gap-20 overflow-x-scroll snap-x snap-mandatory mx-4 py-4 scroll-smooth"
       id="scroll_container"
     >
       {movies?.map((movie, index) => {

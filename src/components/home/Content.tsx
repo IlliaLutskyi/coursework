@@ -5,6 +5,7 @@ import { TVshow } from "@/models/tvshow";
 import { Movie } from "@/models/movie";
 import connectDb from "@/lib/db";
 import { TFetchedLatestMovie, TFetchedMovies } from "@/app/page";
+import { getRandomPoster } from "@/utils/getRandomPoster";
 type props = {
   trendingMovies: TFetchedMovies[];
   tvshows: TFetchedMovies[];
@@ -28,7 +29,9 @@ const Content = async ({
         />
       </Box>
       <Box
-        background={`linear-gradient(rgba(174,233,238,0.5) , rgba(16,95,190,0.5) ),url("https://image.tmdb.org/t/p/original/mDfJG3LC3Dqb67AZ52x3Z0jU0uB.jpg") center/cover no-repeat`}
+        background={`linear-gradient(rgba(174,233,238,0.7) ,rgba(16,95,190,0.5) ),url("https://image.tmdb.org/t/p/original${getRandomPoster(
+          tvshows
+        )}") center/cover no-repeat`}
         color="white"
         mb="2rem"
       >

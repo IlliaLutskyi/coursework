@@ -24,7 +24,9 @@ const MoviesList = ({ movies }: props) => {
               </Box>
               <Box className="flex flex-col gap-2">
                 <Box>
-                  <Heading className="font-bold text-xl">{movie.title}</Heading>
+                  <Heading className="font-bold text-xl hover:text-blue-400">
+                    {movie.title}
+                  </Heading>
                   <Em className="text-sm">{movie.release_date}</Em>
                 </Box>
                 <Box>

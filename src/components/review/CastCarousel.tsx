@@ -10,7 +10,7 @@ type props = {
 const CastCarousel = ({ cast }: props) => {
   return (
     <Box
-      className="flex gap-4 overflow-x-scroll snap-x snap-mandatory"
+      className="flex gap-4 overflow-x-scroll snap-x snap-mandatory scroll-smooth"
       id="cast_scroll_container"
     >
       {cast?.map((character, index) => {

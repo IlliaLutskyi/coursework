@@ -9,7 +9,7 @@ type props = {
 const KnownForSwiper = ({ movies }: props) => {
   return (
     <Box
-      className="flex gap-4 overflow-x-scroll snap-x snap-mandatory scroll-smooth "
+      className="flex gap-4 overflow-x-scroll snap-x snap-mandatory scroll-smooth"
       id="scroll_container"
     >
       {movies?.map((movie, index) => {

@@ -11,7 +11,7 @@ const MovieCarousel = ({
   return (
     <>
       <Box
-        className="flex overflow-x-scroll gap-4 snap-x snap-mandantory "
+        className="flex overflow-x-scroll gap-4 snap-x snap-mandantory scroll-smooth"
         id="scroll_container"
       >
         {movies?.map((movie, index) => {
