@@ -42,6 +42,7 @@ export default async function Home() {
 }
 async function getMovies(): Promise<TMoviesArray> {
   await connectDb();
+
   const [topMovies, trendingMovies, latestMovies, tvshows]: TMoviesArray =
     await Promise.all([
       Movie.find({

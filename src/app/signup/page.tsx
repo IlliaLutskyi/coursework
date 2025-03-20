@@ -1,15 +1,7 @@
 "use client";
-import {
-  Box,
-  Button,
-  Field,
-  Heading,
-  Input,
-  Separator,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Button, Field, Heading, Input, Text } from "@chakra-ui/react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import PreviousMap_ from "postcss/lib/previous-map";
 import React, { FormEvent, KeyboardEvent, useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { BsGithub } from "react-icons/bs";
@@ -141,10 +133,16 @@ const Signup = () => {
         <Heading className="absolute top-[-17%] text-black bg-white px-2">
           or
         </Heading>
-        <Button className="px-4 py-2 shadow-md hover:shadow-xl mt-4 hover:scale-105 text-black">
+        <Button
+          className="px-4 py-2 shadow-md hover:shadow-xl mt-4 hover:scale-105 text-black"
+          onClick={async () => await signIn("google", { callbackUrl: "/" })}
+        >
           <FcGoogle className="mr-2" /> Sign in with google
         </Button>
-        <Button className="px-4 py-2 shadow-md hover:shadow-xl hover:scale-105 text-black">
+        <Button
+          className="px-4 py-2 shadow-md hover:shadow-xl hover:scale-105 text-black"
+          onClick={async () => await signIn("github", { callbackUrl: "/" })}
+        >
           <BsGithub className="mr-2" /> Sign in with github
         </Button>
       </Box>
