@@ -1,28 +1,22 @@
 "use client";
-import { Box, Button, Em, Field, Heading, Input, Text } from "@chakra-ui/react";
+import { Box, Button, Field, Heading, Input, Text } from "@chakra-ui/react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import React, { FormEvent, KeyboardEvent, useEffect, useState } from "react";
-import { FcGoogle } from "react-icons/fc";
-import { BsGithub } from "react-icons/bs";
 import Link from "next/link";
-const Signup = () => {
+import React, { FormEvent, useEffect, useState } from "react";
+import { BsGithub } from "react-icons/bs";
+import { FcGoogle } from "react-icons/fc";
+
+const page = () => {
   const [formData, setFormData] = useState({
-    name: "",
     password: "",
     email: "",
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
   useEffect(() => {
     setError("");
-    if (!formData.email || !formData.name || !formData.password) {
+    if (!formData.email || !formData.password) {
       setError("All field are required");
-      return;
-    }
-    if (formData.password.length <= 6) {
-      setError("Password has to contain more then 6 chars");
       return;
     }
   }, [formData]);
@@ -30,30 +24,16 @@ const Signup = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch("/api/auth/signup", {
-        method: "POST",
-        body: JSON.stringify({
-          name: formData.name.trim(),
-          password: formData.password.trim(),
-          email: formData.email.trim(),
-        }),
+      await signIn("credentials", {
+        callbackUrl: "http://localhost:3000",
+        redirect: true,
+        email: formData.email,
+        password: formData.password,
       });
-      const data: { message: string } = await res.json();
-      if (!res.ok) {
-        throw new Error(data.message);
-      }
-      setError("");
-      setFormData({ name: "", password: "", email: "" });
-      localStorage.removeItem("expireIn");
-      router.replace("/verificationEmail");
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Something went wrong try later"
-      );
-      return;
+      setError(err instanceof Error ? err.message : "Could not log you in");
     } finally {
       setLoading(false);
-      return;
     }
   }
   return (
@@ -68,28 +48,12 @@ const Signup = () => {
       }}
       method="POST"
     >
-      <Heading className="text-xl text-center font-bold">Sign up</Heading>
+      <Heading className="text-xl text-center font-bold">Log in</Heading>
       {error && (
         <Text className="text-red-600 text-center text-sm fade-in-95 duration-300">
           {error}
         </Text>
       )}
-      <Box>
-        <Field.Root>
-          <Field.Label>Name</Field.Label>
-          <Input
-            onChange={(e) =>
-              setFormData((prev) => {
-                return { ...prev, [e.target.name]: e.target.value };
-              })
-            }
-            value={formData.name}
-            name="name"
-            placeholder="e.g. Pirat"
-            className="focus:border-black focus:border-[3px] bg-blue-100 p-1"
-          />
-        </Field.Root>
-      </Box>
       <Box>
         <Field.Root>
           <Field.Label>Email</Field.Label>
@@ -133,9 +97,9 @@ const Signup = () => {
       </Button>
       <Box>
         <Text className="text-sm text-center">
-          Already have an account{" "}
-          <Link href="/login" className="hover:underline text-blue-400">
-            login
+          Still does not have an account{" "}
+          <Link href="/signup" className="hover:underline text-blue-400">
+            Sign up
           </Link>
         </Text>
       </Box>
@@ -168,4 +132,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default page;

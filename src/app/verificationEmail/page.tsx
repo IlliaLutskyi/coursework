@@ -34,7 +34,7 @@ const page = () => {
         check your spam folder or try resending the verification.
       </Text>
       <Heading className="text-center font-bold">The Link Expires In:</Heading>
-      {minutes !== 0 && hours !== 0 && seconds !== 0 ? (
+      {expireIn > 0 ? (
         <Text className="text-center text-xl ">
           <span className="bg-black p-2 text-white border-white border-[1px] rounded-sm">
             {hours}

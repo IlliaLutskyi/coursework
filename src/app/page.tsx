@@ -53,6 +53,7 @@ async function getMovies(): Promise<TMoviesArray> {
           title: 1,
           release_date: 1,
           poster_path: 1,
+          popularity: 1,
         })
         .lean(),
       Movie.find({
