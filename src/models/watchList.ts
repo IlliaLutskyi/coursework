@@ -1,7 +1,8 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 
-type TWatchList = {
-  movies: number[] | [];
+export type TWatchList = {
+  _id: string;
+  movies: number[];
   userId: Schema.Types.ObjectId;
 };
 type TWatchListSchema = TWatchList & Document;

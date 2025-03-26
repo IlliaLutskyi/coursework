@@ -26,6 +26,26 @@ const Signup = () => {
       return;
     }
   }, [formData]);
+  async function handleProviderAuth(provider: "google" | "github") {
+    setError("");
+    setLoading(true);
+    try {
+      const res = await signIn(provider, { redirect: false });
+      if (res?.error) {
+        throw new Error(res.error);
+      }
+      router.replace("/");
+    } catch (err) {
+      console.log(err);
+      setError(
+        err instanceof Error
+          ? err.message
+          : `Could not sign you up with ${provider}`
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
   async function handleSubmit(e: FormEvent<HTMLFormElement> | KeyboardEvent) {
     e.preventDefault();
     setLoading(true);
@@ -144,22 +164,14 @@ const Signup = () => {
         <Button
           className="px-4 py-2 shadow-md hover:shadow-xl mt-4 hover:scale-105 text-black"
           disabled={loading}
-          onClick={async () => {
-            setLoading(true);
-            await signIn("google", { callbackUrl: "/" });
-            setLoading(false);
-          }}
+          onClick={async () => await handleProviderAuth("google")}
         >
           <FcGoogle className="mr-2" /> Sign in with google
         </Button>
         <Button
           className="px-4 py-2 shadow-md hover:shadow-xl hover:scale-105 text-black"
           disabled={loading}
-          onClick={async () => {
-            setLoading(true);
-            await signIn("github", { callbackUrl: "/" });
-            setLoading(false);
-          }}
+          onClick={async () => await handleProviderAuth("github")}
         >
           <BsGithub className="mr-2" /> Sign in with github
         </Button>

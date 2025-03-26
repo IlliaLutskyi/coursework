@@ -2,6 +2,7 @@
 import { Box, Button, Field, Heading, Input, Text } from "@chakra-ui/react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { FormEvent, useEffect, useState } from "react";
 import { BsGithub } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
@@ -11,25 +12,58 @@ const page = () => {
     password: "",
     email: "",
   });
+  const router = useRouter();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const searchParams = useSearchParams();
   useEffect(() => {
     setError("");
+    if (searchParams.get("error") === "OAuthAccountNotLinked") {
+      setError("This email is already linked to another login method");
+      return;
+    }
+
     if (!formData.email || !formData.password) {
       setError("All field are required");
       return;
     }
   }, [formData]);
+  // Handle providers
+  async function handleProviderAuth(provider: "google" | "github") {
+    setError("");
+    setLoading(true);
+    try {
+      const res = await signIn(provider, { redirect: false });
+
+      if (res?.error) {
+        throw new Error(res.error);
+      }
+      router.replace("/");
+    } catch (err) {
+      console.log(err);
+      setError(
+        err instanceof Error
+          ? err.message
+          : `Could not sign you up with ${provider}`
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+  // Handle Form Submition
   async function handleSubmit(e: FormEvent<HTMLFormElement> | KeyboardEvent) {
     e.preventDefault();
     setLoading(true);
     try {
-      await signIn("credentials", {
-        callbackUrl: "http://localhost:3000",
-        redirect: true,
+      const res = await signIn("credentials", {
+        redirect: false,
         email: formData.email,
         password: formData.password,
       });
+      if (res?.error) {
+        throw new Error(res.error);
+      }
+      router.replace("/");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not log you in");
     } finally {
@@ -58,6 +92,7 @@ const page = () => {
         <Field.Root>
           <Field.Label>Email</Field.Label>
           <Input
+            type="email"
             onChange={(e) =>
               setFormData((prev) => {
                 return { ...prev, [e.target.name]: e.target.value };
@@ -65,7 +100,6 @@ const page = () => {
             }
             value={formData.email}
             name="email"
-            type="email"
             placeholder="e.g. Pirat@gmail.com"
             className="focus:border-black focus:border-[3px] bg-blue-100 p-1"
           />
@@ -108,22 +142,14 @@ const page = () => {
         <Button
           className="px-4 py-2 shadow-md hover:shadow-xl mt-4 hover:scale-105 text-black"
           disabled={loading}
-          onClick={async () => {
-            setLoading(true);
-            await signIn("google", { callbackUrl: "/" });
-            setLoading(false);
-          }}
+          onClick={async () => await handleProviderAuth("google")}
         >
           <FcGoogle className="mr-2" /> Sign in with google
         </Button>
         <Button
           className="px-4 py-2 shadow-md hover:shadow-xl hover:scale-105 text-black"
           disabled={loading}
-          onClick={async () => {
-            setLoading(true);
-            await signIn("github", { callbackUrl: "/" });
-            setLoading(false);
-          }}
+          onClick={async () => await handleProviderAuth("github")}
         >
           <BsGithub className="mr-2" /> Sign in with github
         </Button>

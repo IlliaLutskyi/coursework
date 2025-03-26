@@ -1,5 +1,6 @@
 "use client";
 import {
+  Box,
   Button,
   DrawerBackdrop,
   DrawerBody,
@@ -36,7 +37,7 @@ const Menu = () => {
     >
       <DrawerBackdrop />
       <DrawerTrigger asChild>
-        <CiMenuBurger size="1.2rem" />
+        <CiMenuBurger size="1.3rem" />
       </DrawerTrigger>
       <DrawerContent className="h-screen absolute top-0 right-0">
         <DrawerHeader>
@@ -47,7 +48,7 @@ const Menu = () => {
             className="ml-auto hover:bg-white hover:bg-opacity-20 rounded-sm "
           />
         </DrawerHeader>
-        <DrawerBody className="flex flex-col items-center  gap-4 ">
+        <DrawerBody className="flex flex-col items-center gap-4  ">
           {links.map((link, index) => {
             return (
               <Link
@@ -63,12 +64,25 @@ const Menu = () => {
           {session?.user ? (
             <Button
               onClick={async () => await signOut()}
-              className="bg-white p-2 rounded-md hover:scale-105"
+              className="bg-white p-2 rounded-md hover:scale-105 mt-auto self-end  mb-4"
             >
               Log out
             </Button>
           ) : (
-            <Link href="/signup">Sign Up</Link>
+            <Box className="flex justify-between  mt-auto mb-4 w-full">
+              <Link
+                href="/signup"
+                className="bg-white p-2 rounded-md hover:scale-105 "
+              >
+                Sign up
+              </Link>
+              <Link
+                href="/login"
+                className="bg-white p-2 rounded-md hover:scale-105 "
+              >
+                Log in
+              </Link>
+            </Box>
           )}
         </DrawerBody>
         <DrawerCloseTrigger />

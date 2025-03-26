@@ -47,7 +47,7 @@ export const authOptions: NextAuthOptions = {
           if (!user) {
             throw new Error("User are not found, you need sign up first");
           }
-          const match = bcrypt.compare(password, user.password);
+          const match = await bcrypt.compare(password, user.password);
           if (!match) {
             throw new Error("Password is incorrect");
           }
@@ -84,7 +84,7 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-  // pages: {
-  //   signIn: "/login",
-  // },
+  pages: {
+    signIn: "/login",
+  },
 };

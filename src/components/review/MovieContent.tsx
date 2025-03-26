@@ -4,6 +4,7 @@ import { Box, Heading, Text } from "@chakra-ui/react";
 import React from "react";
 import PlayTrailerButton from "./PlayTrailerButton";
 import OptimizedImage from "../OptimizedImage";
+import WatchListButton from "./WatchListButton";
 type props = {
   movie: TMovie | null | TTVshow;
   type: string;
@@ -44,13 +45,14 @@ const MovieContent = ({ movie, type, genres }: props) => {
             })}
           </Text>
         </Box>
-        <Box>
+        <Box className="flex gap-6 items-baseline">
           <PlayTrailerButton
             title={"Play Trailer"}
             className="bg-transparent hover:opacity-50"
             movie_title={movie?.title as string}
             trailer_id={movie?.trailer_id as string}
           />
+          <WatchListButton movieId={movie?._id} />
         </Box>
         <Box>
           <Heading className="font-bold text-2xl mb-1">Overview</Heading>

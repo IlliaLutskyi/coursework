@@ -6,6 +6,7 @@ interface IParams {
 }
 export async function GET(req: Request, { params }: { params: IParams }) {
   const { id } = await params;
+
   try {
     const movie = await Movie.findById(id).lean();
     if (!movie) {

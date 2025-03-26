@@ -16,9 +16,7 @@ const Page = async ({ params }: params) => {
   const { type, id } = await params;
   if (type === "movie") {
     const [movie, cast] = await Promise.all([
-      Movie.findById(Number(id))
-        .select({ _id: 0 })
-        .lean() as Promise<TMovie | null>,
+      Movie.findById(Number(id)).lean() as Promise<TMovie | null>,
       Cast.findOne({ tmdb_movie_id: id })
         .select({ _id: 0, "cast._id": 0 })
         .lean() as Promise<{
@@ -40,9 +38,7 @@ const Page = async ({ params }: params) => {
     );
   } else if (type === "tv") {
     const [tvshow, tvcast] = await Promise.all([
-      TVshow.findById(Number(id))
-        .select({ _id: 0 })
-        .lean() as Promise<TTVshow | null>,
+      TVshow.findById(Number(id)).lean() as Promise<TTVshow | null>,
       TVshowCast.findOne({ tmdb_movie_id: id })
         .select({ _id: 0, "cast._id": 0 })
         .lean() as Promise<{
