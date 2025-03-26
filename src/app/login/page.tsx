@@ -14,8 +14,11 @@ const page = () => {
   });
   const router = useRouter();
   const [error, setError] = useState("");
+
   const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
+  const movieId = searchParams.get("movieId");
+  const type = searchParams.get("type");
   useEffect(() => {
     setError("");
     if (searchParams.get("error") === "OAuthAccountNotLinked") {
@@ -38,7 +41,7 @@ const page = () => {
       if (res?.error) {
         throw new Error(res.error);
       }
-      router.replace("/");
+      router.replace(movieId && type ? `/review/${type}/${movieId}` : "/");
     } catch (err) {
       console.log(err);
       setError(
@@ -63,7 +66,7 @@ const page = () => {
       if (res?.error) {
         throw new Error(res.error);
       }
-      router.replace("/");
+      router.replace(movieId && type ? `/review/${type}/${movieId}` : "/");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not log you in");
     } finally {

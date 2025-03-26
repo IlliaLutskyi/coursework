@@ -1,14 +1,11 @@
 import { Box, Heading } from "@chakra-ui/react";
 import React from "react";
-
 import Link from "next/link";
 import Menu from "./Menu";
 import SearchBox from "./SearchBox";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/options";
+import SignupButton from "./SignupButton";
 
 const NavigationBar = async () => {
-  const session = await getServerSession(authOptions);
   return (
     <Box className=" flex items-center justify-center gap-4 p-2 ">
       <Link href="/">
@@ -17,15 +14,7 @@ const NavigationBar = async () => {
       <Box className="relative flex-grow">
         <SearchBox />
       </Box>
-      {!session?.user && (
-        <Link
-          href="/signup"
-          className="sm:block hidden bg-black shadow-md  text-white p-2 text-sm rounded-lg hover:scale-105"
-        >
-          Sign up
-        </Link>
-      )}
-
+      <SignupButton />
       <Menu />
     </Box>
   );

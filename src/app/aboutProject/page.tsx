@@ -22,6 +22,7 @@ const page = () => {
           Next.js & TypeScript – For a fast, SEO-friendly, and scalable
           frontend.
         </List.Item>
+        <List.Item>Next-auth – For authentication</List.Item>
         <List.Item>
           Chakra UI – For a sleek, responsive, and accessible user interface.
         </List.Item>

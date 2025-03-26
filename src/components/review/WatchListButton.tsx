@@ -1,25 +1,32 @@
 "use client";
-import { Box } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { Toaster, toaster } from "@/components/ui/toaster";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { FaRegBookmark } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa";
+import ClipLoader from "react-spinners/ClipLoader";
 type props = {
   movieId: number | undefined;
+  type: string;
 };
 
-const WatchListButton = ({ movieId }: props) => {
+const WatchListButton = ({ movieId, type }: props) => {
   const { data: session } = useSession();
   const [isAdded, setIsAdded] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  // ====================================================
+  // utilize click event
+  // ====================================================
   useEffect(() => {
+    // clear previous messages
     setError("");
     setMessage("");
+    // checking for existing movie in the watch list
     async function checkWatchList() {
       try {
         const res = await fetch(
@@ -39,21 +46,34 @@ const WatchListButton = ({ movieId }: props) => {
     checkWatchList();
     const watchListButton = document.getElementById("watchListButton");
     watchListButton?.addEventListener("click", handleWatchListClick);
-    if (loading) {
-      toaster.create({
-        title: "Working on it ...",
-        type: "info",
-        duration: 1000,
-      });
-    }
+    // utilizing the best component in chakra ui TOSTER *_*
     if (message) {
+      toaster.dismiss();
       toaster.create({
         title: message,
         type: "info",
         duration: 3000,
       });
     }
-    if (error) {
+    if (loading) {
+      toaster.dismiss();
+      toaster.create({
+        title: (
+          <Text>
+            <ClipLoader size={10} color="white" className="mr-4" />
+            Working on it...
+          </Text>
+        ),
+        type: "info",
+        duration: 1000,
+      });
+    }
+    if (
+      error &&
+      error !==
+        `Cast to ObjectId failed for value "undefined" (type string) at path "userId" for model "WatchList"`
+    ) {
+      toaster.dismiss();
       toaster.create({
         title: error,
         type: "error",
@@ -63,9 +83,12 @@ const WatchListButton = ({ movieId }: props) => {
     return () =>
       watchListButton?.removeEventListener("click", handleWatchListClick);
   });
+  // ====================================================
+  // Handle click event
+  // ====================================================
   async function handleWatchListClick() {
     if (!session?.user?.id) {
-      return router.push("/login");
+      return router.push(`/login?movieId=${movieId}&type=${type}`);
     }
     try {
       setLoading(true);
@@ -108,5 +131,4 @@ const WatchListButton = ({ movieId }: props) => {
     </>
   );
 };
-
 export default WatchListButton;

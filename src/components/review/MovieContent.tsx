@@ -52,7 +52,7 @@ const MovieContent = ({ movie, type, genres }: props) => {
             movie_title={movie?.title as string}
             trailer_id={movie?.trailer_id as string}
           />
-          <WatchListButton movieId={movie?._id} />
+          <WatchListButton movieId={movie?._id} type={type} />
         </Box>
         <Box>
           <Heading className="font-bold text-2xl mb-1">Overview</Heading>
