@@ -10,7 +10,6 @@ import {
   DrawerRoot,
   DrawerTrigger,
 } from "@chakra-ui/react";
-import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useState } from "react";
 import { CiMenuBurger } from "react-icons/ci";
@@ -26,7 +25,6 @@ const links: links = [
   { href: "/aboutProject", title: "About Project" },
 ];
 const Menu = () => {
-  const { data: session } = useSession();
   const [open, setOpen] = useState(false);
   return (
     <DrawerRoot
@@ -61,29 +59,6 @@ const Menu = () => {
               </Link>
             );
           })}
-          {session?.user ? (
-            <Button
-              onClick={async () => await signOut()}
-              className="bg-white p-2 rounded-md hover:scale-105 mt-auto self-end  mb-4"
-            >
-              Log out
-            </Button>
-          ) : (
-            <Box className="flex justify-between  mt-auto mb-4 w-full">
-              <Link
-                href="/signup"
-                className="bg-white p-2 rounded-md hover:scale-105 "
-              >
-                Sign up
-              </Link>
-              <Link
-                href="/login"
-                className="bg-white p-2 rounded-md hover:scale-105 "
-              >
-                Log in
-              </Link>
-            </Box>
-          )}
         </DrawerBody>
         <DrawerCloseTrigger />
       </DrawerContent>

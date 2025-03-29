@@ -24,14 +24,14 @@ const page = () => {
               variant="surface"
               className="bg-[#FFC300] p-1 self-end duration-100 hover:scale-95 text-black text-sm uppercase"
               onClick={async () => {
-                // setLoading((prev) => !prev);
-                // const res = await fetch(`api/save`, { method: "POST" });
-                // const data = await res.json();
-                // setLoading((prev) => !prev);
-                // if (data?.err) {
-                //   console.error(data.err);
-                // }
-                // alert(data.message);
+                setLoading((prev) => !prev);
+                const res = await fetch(`api/save`, { method: "POST" });
+                const data = await res.json();
+                setLoading((prev) => !prev);
+                if (data?.err) {
+                  console.error(data.err);
+                }
+                alert(data.message);
               }}
               loading={loading}
               spinnerPlacement="start"

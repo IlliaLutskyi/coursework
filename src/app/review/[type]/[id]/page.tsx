@@ -12,10 +12,10 @@ import React from "react";
 
 type params = { params: { type: string; id: string } };
 const Page = async ({ params }: params) => {
-  await connectDb();
   const { type, id } = await params;
+  await connectDb();
   if (type === "movie") {
-    const [movie, cast] = await Promise.all([
+    const [movie, movieCast] = await Promise.all([
       Movie.findById(Number(id)).lean() as Promise<TMovie | null>,
       Cast.findOne({ tmdb_movie_id: id })
         .select({ _id: 0, "cast._id": 0 })
@@ -32,7 +32,7 @@ const Page = async ({ params }: params) => {
     return (
       <Box className="flex flex-col gap-4">
         <MovieContent movie={movie} type={type} genres={genres} />
-        <CastContent cast={cast} />
+        {movieCast?.cast && <CastContent cast={movieCast} />}
         <TrailerPopup />
       </Box>
     );
@@ -53,10 +53,12 @@ const Page = async ({ params }: params) => {
           .lean() as Promise<{ name: string }[] | null>;
       }) as Iterable<{ name: string } | PromiseLike<{ name: string }>>
     );
+
     return (
       <Box>
         <MovieContent movie={tvshow} type={type} genres={genres} />
-        <CastContent cast={tvcast} />
+        {tvcast?.cast && <CastContent cast={tvcast} />}
+
         <TrailerPopup />
       </Box>
     );

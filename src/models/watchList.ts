@@ -2,19 +2,24 @@ import mongoose, { Schema, Document, Model } from "mongoose";
 
 export type TWatchList = {
   _id: string;
-  movies: number[];
-  userId: Schema.Types.ObjectId;
+  movies: { movie_id: number; added_at: Date }[];
+  userId: mongoose.Types.ObjectId;
 };
 type TWatchListSchema = TWatchList & Document;
 const watchListSchema = new mongoose.Schema<TWatchListSchema>({
   movies: [
     {
-      type: Number,
-      ref: "Movie",
+      movie_id: {
+        type: Number,
+        ref: "Movie",
+      },
+      added_at: {
+        type: Date,
+      },
     },
   ],
   userId: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     unique: true,
     required: true,
     ref: "User",

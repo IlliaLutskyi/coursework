@@ -4,6 +4,7 @@ import Link from "next/link";
 import Menu from "./Menu";
 import SearchBox from "./SearchBox";
 import SignupButton from "./SignupButton";
+import ProfileMenu from "./ProfileMenu";
 
 const NavigationBar = async () => {
   return (
@@ -14,7 +15,9 @@ const NavigationBar = async () => {
       <Box className="relative flex-grow">
         <SearchBox />
       </Box>
+      {/* SignupButton apprears when user is logged out, ProfileMenu appears when user is logged in */}
       <SignupButton />
+
       <Menu />
     </Box>
   );

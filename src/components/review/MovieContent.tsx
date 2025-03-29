@@ -45,14 +45,14 @@ const MovieContent = ({ movie, type, genres }: props) => {
             })}
           </Text>
         </Box>
-        <Box className="flex gap-6 items-baseline">
+        <Box className="flex gap-6 items-center ">
+          <WatchListButton movieId={movie?._id} type={type} />
           <PlayTrailerButton
             title={"Play Trailer"}
             className="bg-transparent hover:opacity-50"
             movie_title={movie?.title as string}
             trailer_id={movie?.trailer_id as string}
           />
-          <WatchListButton movieId={movie?._id} type={type} />
         </Box>
         <Box>
           <Heading className="font-bold text-2xl mb-1">Overview</Heading>

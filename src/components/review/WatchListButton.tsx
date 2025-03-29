@@ -3,7 +3,7 @@ import { Box, Text } from "@chakra-ui/react";
 import { Toaster, toaster } from "@/components/ui/toaster";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaRegBookmark } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -13,24 +13,26 @@ type props = {
 };
 
 const WatchListButton = ({ movieId, type }: props) => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  const listButtonRef = useRef<HTMLDivElement>(null);
   const [isAdded, setIsAdded] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   // ====================================================
-  // utilize click event
+  // Checking for existing movie in the watch list
   // ====================================================
   useEffect(() => {
-    // clear previous messages
-    setError("");
-    setMessage("");
-    // checking for existing movie in the watch list
+    const controller = new AbortController();
+    const signal = controller.signal;
     async function checkWatchList() {
       try {
         const res = await fetch(
-          `/api/checkWatchList?movieId=${movieId}&userId=${session?.user.id}`
+          `/api/checkWatchList?movieId=${movieId}${
+            session?.user.id ? "&userId=" + session.user.id : ""
+          }`,
+          { signal }
         );
         const data: { message: string; isInWatchList: boolean } =
           await res.json();
@@ -40,13 +42,35 @@ const WatchListButton = ({ movieId, type }: props) => {
 
         setIsAdded(data.isInWatchList);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Something went wrong");
+        if (err instanceof Error && err.name !== "AbortError")
+          setError(err instanceof Error ? err.message : "Something went wrong");
       }
     }
     checkWatchList();
-    const watchListButton = document.getElementById("watchListButton");
-    watchListButton?.addEventListener("click", handleWatchListClick);
-    // utilizing the best component in chakra ui TOSTER *_*
+    return () => controller.abort();
+  }, [status]);
+  // ====================================================
+  // Utilize click event
+  // ====================================================
+  useEffect(() => {
+    // clear previous messages
+    setError("");
+    setMessage("");
+    if (listButtonRef.current) {
+      listButtonRef.current.addEventListener("click", handleWatchListClick);
+    }
+    return () => {
+      if (listButtonRef.current)
+        listButtonRef.current.removeEventListener(
+          "click",
+          handleWatchListClick
+        );
+    };
+  }, [status]);
+  // ====================================================
+  // Showing toasters
+  // ====================================================
+  useEffect(() => {
     if (message) {
       toaster.dismiss();
       toaster.create({
@@ -80,13 +104,12 @@ const WatchListButton = ({ movieId, type }: props) => {
         duration: 3000,
       });
     }
-    return () =>
-      watchListButton?.removeEventListener("click", handleWatchListClick);
-  });
+  }, [message, loading, error]);
   // ====================================================
   // Handle click event
   // ====================================================
   async function handleWatchListClick() {
+    if (status === "loading") return;
     if (!session?.user?.id) {
       return router.push(`/login?movieId=${movieId}&type=${type}`);
     }
@@ -97,7 +120,7 @@ const WatchListButton = ({ movieId, type }: props) => {
         { method: "POST" }
       );
       const data: { message: string; added: boolean } = await res.json();
-      console.log(data.added);
+
       if (!res.ok) {
         throw new Error(data.message);
       }
@@ -120,11 +143,14 @@ const WatchListButton = ({ movieId, type }: props) => {
   }
   return (
     <>
-      <Box className="p-2 bg-blue-500 rounded-full hover:scale-105">
+      <Box
+        className="p-2 bg-blue-500 rounded-full hover:scale-105"
+        ref={listButtonRef}
+      >
         {isAdded ? (
-          <FaBookmark id="watchListButton" className="cursor-pointer" />
+          <FaBookmark className="cursor-pointer" />
         ) : (
-          <FaRegBookmark id="watchListButton" className="cursor-pointer" />
+          <FaRegBookmark className="cursor-pointer" />
         )}
         <Toaster />
       </Box>
