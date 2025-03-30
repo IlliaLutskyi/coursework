@@ -7,25 +7,35 @@ import { authOptions } from "../api/auth/[...nextauth]/options";
 import { WatchList } from "@/models/watchList";
 import { TMovie } from "@/models/movie";
 import connectDb from "@/lib/db";
+import { TTVshow } from "@/models/tvshow";
 export type watchlist = {
-  movies: { movie_id: TMovie; added_at: Date }[];
+  movies: {
+    movie: TMovie | TTVshow;
+    added_at: Date;
+    refType: "Movie" | "TVshow";
+  }[];
 } | null;
 const page = async () => {
   await connectDb();
   const session = await getServerSession(authOptions);
   const watchlist = await getWatchlist(session?.user.id as string);
   return (
-    <Box>
+    <Box className="flex flex-col gap-4">
       <Profile />
-      <Watchlist watchlist={watchlist} />
+      {watchlist && watchlist.movies.length !== 0 ? (
+        <Watchlist watchlist={watchlist} />
+      ) : (
+        <Box className="text-lg text-center font-bold">
+          Your watchlist is empty
+        </Box>
+      )}
     </Box>
   );
 };
 async function getWatchlist(userId: string): Promise<watchlist> {
   const watchlist = (await WatchList.findOne({ userId })
     .select({ "movies._id": 0, _id: 0, userId: 0 })
-    .populate("movies.movie_id")
-    .sort({ "movies.added_at": 1 })
+    .populate("movies.movie")
     .lean()) as watchlist;
 
   return watchlist;

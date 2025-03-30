@@ -11,6 +11,7 @@ import {
   DrawerTrigger,
 } from "@chakra-ui/react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 import { CiMenuBurger } from "react-icons/ci";
 import { IoCloseOutline } from "react-icons/io5";
@@ -26,6 +27,7 @@ const links: links = [
 ];
 const Menu = () => {
   const [open, setOpen] = useState(false);
+  const path = usePathname();
   return (
     <DrawerRoot
       placement="end"
@@ -51,7 +53,9 @@ const Menu = () => {
             return (
               <Link
                 key={index}
-                className="text-white hover:underline"
+                className={`${
+                  path === link.href ? "underline" : "hover:underline"
+                } text-white `}
                 href={link.href}
                 onClick={() => setOpen(false)}
               >

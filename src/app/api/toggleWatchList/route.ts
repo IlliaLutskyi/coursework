@@ -1,4 +1,3 @@
-import { TMovie } from "@/models/movie";
 import { TWatchList, WatchList } from "@/models/watchList";
 import { NextResponse } from "next/server";
 
@@ -7,11 +6,12 @@ export async function POST(req: Request) {
   const searchParams = url.searchParams;
   const userId = searchParams.get("userId");
   const movieId = searchParams.get("movieId");
-  console.log(userId);
+  const type = searchParams.get("type");
+
   try {
-    if (!movieId || !userId)
+    if (!userId || !type)
       return NextResponse.json(
-        { message: "MovieId and userId are required", added: false },
+        { message: "UserId are required", added: false },
         { status: 400 }
       );
     const watchList: TWatchList | null = await WatchList.findOne({
@@ -23,11 +23,11 @@ export async function POST(req: Request) {
         { status: 404 }
       );
     }
-    const movies = watchList?.movies as { movie_id: number; added_at: Date }[];
-    const isInList = movies.some((movie) => movie.movie_id === Number(movieId));
+    const movies = watchList?.movies as { movie: number; added_at: Date }[];
+    const isInList = movies.some((movie) => movie.movie === Number(movieId));
     if (isInList) {
       const filteredMovies = movies.filter(
-        (movie) => movie.movie_id !== Number(movieId)
+        (movie) => movie.movie !== Number(movieId)
       );
 
       await WatchList.findByIdAndUpdate(watchList._id, {
@@ -40,7 +40,11 @@ export async function POST(req: Request) {
     } else {
       const filteredMovies = [
         ...movies,
-        { movie_id: Number(movieId), added_at: new Date() },
+        {
+          movie: Number(movieId),
+          added_at: new Date(),
+          refType: type.toLowerCase() === "movie" ? "Movie" : "TVshow",
+        },
       ];
 
       await WatchList.findByIdAndUpdate(watchList._id, {

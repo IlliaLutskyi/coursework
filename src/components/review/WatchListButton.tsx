@@ -116,7 +116,7 @@ const WatchListButton = ({ movieId, type }: props) => {
     try {
       setLoading(true);
       const res = await fetch(
-        `/api/toggleWatchList?userId=${session.user.id}&movieId=${movieId}`,
+        `/api/toggleWatchList?userId=${session.user.id}&movieId=${movieId}&type=${type}`,
         { method: "POST" }
       );
       const data: { message: string; added: boolean } = await res.json();
