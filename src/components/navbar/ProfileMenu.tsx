@@ -35,7 +35,7 @@ const ProfileMenu = () => {
                 <Menu.Separator />
                 <Menu.Item
                   value="log_out"
-                  onClick={async () => await signOut({ redirect: false })}
+                  onClick={async () => await signOut()}
                 >
                   <Text className="text-center w-full">Log out</Text>
                 </Menu.Item>

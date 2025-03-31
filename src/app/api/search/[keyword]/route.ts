@@ -11,8 +11,8 @@ export async function GET(req: Request, { params }: { params: IParams }) {
         $search: {
           index: "default",
           text: {
-            query: `^${keyword}`,
-            path: ["title"],
+            query: keyword,
+            path: "title",
             fuzzy: { maxEdits: 2 },
           },
         },
