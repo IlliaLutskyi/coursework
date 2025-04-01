@@ -28,8 +28,8 @@ const Info = ({ actor }: props) => {
       {actor?.also_known_as && actor.also_known_as.length !== 0 && (
         <Box>
           <Heading className="font-bold text-xl">Also Known As</Heading>
-          {actor.also_known_as.map((name) => (
-            <Text>{name}</Text>
+          {actor.also_known_as.map((name, index) => (
+            <Text key={index}>{name}</Text>
           ))}
         </Box>
       )}
