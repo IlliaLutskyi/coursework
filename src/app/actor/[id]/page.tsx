@@ -25,7 +25,7 @@ const page = async ({ params }: props) => {
   if (!actor)
     return (
       <Box>
-        No information about the actor was found{" "}
+        No information was found about this actor
         <Link href="/" className="hover:underline text-blue-300">
           Go back to home page
         </Link>

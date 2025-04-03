@@ -1,8 +1,14 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
+import { TMovie } from "./movie";
+import { TTVshow } from "./tvshow";
 
 export type TWatchList = {
   _id: string;
-  movies: { movie: number; added_at: Date; refType: "Movie" | "TVshow" }[];
+  movies: {
+    movie: number | TMovie | TTVshow;
+    added_at: Date;
+    refType: "Movie" | "TVshow";
+  }[];
   userId: mongoose.Types.ObjectId;
 };
 type TWatchListSchema = TWatchList & Document;

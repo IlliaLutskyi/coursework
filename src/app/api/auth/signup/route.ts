@@ -11,7 +11,6 @@ export async function POST(req: Request) {
     );
   }
   try {
-    await connectDb();
     const { name, email, password } = await req.json();
     if (!name || !email || !password) {
       return NextResponse.json(
@@ -19,6 +18,7 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
+    await connectDb();
     const exist = await User.findOne({ email });
     if (exist)
       return NextResponse.json(

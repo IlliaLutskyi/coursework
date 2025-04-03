@@ -10,11 +10,19 @@ import {
 import { Movie, TMovie } from "@/models/movie";
 import { User } from "@/models/user";
 import { WatchList } from "@/models/watchList";
+
 import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest, res: NextResponse) {
   try {
     await connectDb();
-
+    await Movie.updateMany(
+      {},
+      {
+        $rename: {
+          genre: "genres",
+        },
+      }
+    );
     return NextResponse.json({ message: "good" });
   } catch (err) {
     return NextResponse.json({

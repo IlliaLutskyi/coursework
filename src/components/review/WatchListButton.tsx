@@ -3,7 +3,7 @@ import { Box, Text } from "@chakra-ui/react";
 import { Toaster, toaster } from "@/components/ui/toaster";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaRegBookmark } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -14,7 +14,7 @@ type props = {
 
 const WatchListButton = ({ movieId, type }: props) => {
   const { data: session, status } = useSession();
-  const listButtonRef = useRef<HTMLDivElement>(null);
+
   const [isAdded, setIsAdded] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -49,24 +49,7 @@ const WatchListButton = ({ movieId, type }: props) => {
     checkWatchList();
     return () => controller.abort();
   }, [status]);
-  // ====================================================
-  // Utilize click event
-  // ====================================================
-  useEffect(() => {
-    // clear previous messages
-    setError("");
-    setMessage("");
-    if (listButtonRef.current) {
-      listButtonRef.current.addEventListener("click", handleWatchListClick);
-    }
-    return () => {
-      if (listButtonRef.current)
-        listButtonRef.current.removeEventListener(
-          "click",
-          handleWatchListClick
-        );
-    };
-  }, [status]);
+
   // ====================================================
   // Showing toasters
   // ====================================================
@@ -82,13 +65,8 @@ const WatchListButton = ({ movieId, type }: props) => {
     if (loading) {
       toaster.dismiss();
       toaster.create({
-        title: (
-          <Text>
-            <ClipLoader size={10} color="white" className="mr-4" />
-            Working on it...
-          </Text>
-        ),
-        type: "info",
+        title: " Working on it...",
+        type: "loading",
         duration: 1000,
       });
     }
@@ -145,7 +123,7 @@ const WatchListButton = ({ movieId, type }: props) => {
     <>
       <Box
         className="p-2 bg-blue-500 rounded-full hover:scale-105"
-        ref={listButtonRef}
+        onClick={handleWatchListClick}
       >
         {isAdded ? (
           <FaBookmark className="cursor-pointer" />

@@ -1,8 +1,6 @@
 "use client";
 import { useFetchTrailer } from "@/hooks/useFetchTrailer";
-import { TTrailer } from "@/models/trailer";
 import { Box } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
 type props = {
   trailer_id: string;
   className: string;

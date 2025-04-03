@@ -39,10 +39,10 @@ export const authOptions: NextAuthOptions = {
         const password = credentials?.password;
         const email = credentials?.email;
         try {
-          await connectDb();
           if (!email || !password) {
             throw new Error("The fields are required");
           }
+          await connectDb();
           const user = await User.findOne({ email: email });
           if (!user) {
             throw new Error("User are not found, you need sign up first");

@@ -20,19 +20,13 @@ const CastCarousel = ({ cast }: props) => {
             key={index}
             className="snap-center w-[200px] flex-shrink-0 py-3"
           >
-            <Card.Root
-              h="full"
-              className="bg-white shadow-xl"
-              maxW="sm"
-              overflow="hidden"
-              gap="0"
-            >
+            <Card.Root className="bg-white shadow-xl h-full ">
               {character?.profile_path ? (
                 <OptimizedImage
                   path={`https://image.tmdb.org/t/p/original${character.profile_path}`}
                 />
               ) : (
-                <FaUserAlt className="w-full h-[200px] p-2" color="black" />
+                <FaUserAlt className="w-full h-3/4 p-2 text-black" />
               )}
               <Card.Body className="text-black w-full">
                 <Heading className="font-bold text-sm w-full hover:opacity-40">
