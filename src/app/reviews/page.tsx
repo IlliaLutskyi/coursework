@@ -20,7 +20,7 @@ const Reviews = () => {
   const keyword = searchParams.get("keyword");
   const page = searchParams.get("page");
 
-  const { movies, amountOfMovies, loading, error } = useFetchMoviesByKeyword(
+  const { movies, amountOfMovies, error } = useFetchMoviesByKeyword(
     keyword,
     page
   );

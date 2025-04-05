@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export function useVerifyEmail(token: string) {
+export function useVerifyEmail(token: string | null) {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);

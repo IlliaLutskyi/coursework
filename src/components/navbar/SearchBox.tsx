@@ -3,14 +3,14 @@ import React, { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { InputGroup } from "../ui/input-group";
 import { redirect } from "next/navigation";
 import { CiSearch } from "react-icons/ci";
-import { Box, Input, Text } from "@chakra-ui/react";
+import { Box, Input } from "@chakra-ui/react";
 import Results from "./Results";
 import { IoCloseOutline } from "react-icons/io5";
 import { useSearchHints } from "@/hooks/useSearchHints";
 
 const SearchBox = () => {
   const [keyword, setKeyword] = useState("");
-  const { movies, setMovies, loading, error } = useSearchHints(keyword);
+  const { movies, setMovies, error } = useSearchHints(keyword);
   const searchRef = useRef<HTMLDivElement | null>(null);
   const handleKey = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key.toLocaleLowerCase() === "enter") {

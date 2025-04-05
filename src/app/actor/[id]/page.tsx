@@ -6,14 +6,11 @@ import { Actor, TActor } from "@/models/actor";
 import { Cast } from "@/models/cast";
 import { Movie, TMovie } from "@/models/movie";
 import { Box, Heading } from "@chakra-ui/react";
+
 import Link from "next/link";
-import React from "react";
-type props = {
-  params: { id: string };
-};
-const page = async ({ params }: props) => {
+const ActorPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   await connectDb();
-  const { id } = await params;
+  const id = (await params).id;
   const [actor, movie_ids] = await Promise.all([
     Actor.findById(Number(id)).select({ _id: 0 }).lean() as Promise<
       Omit<TActor, "_id">
@@ -57,4 +54,4 @@ const page = async ({ params }: props) => {
   );
 };
 
-export default page;
+export default ActorPage;

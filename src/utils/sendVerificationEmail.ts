@@ -15,7 +15,7 @@ export async function sendVerificationEmail({
     });
     const link = `http://localhost:3000/verify?token=${token}`;
     await transporter.sendMail({
-      from: process.env.EMAIL_FROM,
+      from: process.env.EMAIL,
       to: email,
       subject: "Verification Link",
       html: `<p>Click here to proceed verification process: <a href="${link}">proceed</a></p>`,

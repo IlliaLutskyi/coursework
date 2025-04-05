@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, Model } from "mongoose";
+import mongoose, { Document, Model } from "mongoose";
 import { TMovie } from "./movie";
 import { TTVshow } from "./tvshow";
 

@@ -14,10 +14,7 @@ export async function middleware(req: NextRequest) {
   if (url.pathname === "/watchlist" && !token) {
     return NextResponse.redirect(new URL("/", req.url));
   }
-  if (url.pathname === "/admin" && token?.email !== "axax09787@gmail.com") {
-    return NextResponse.redirect(new URL("/", req.url));
-  }
 }
 export const config = {
-  matcher: ["/signup", "/login", "/admin", "/watchlist"],
+  matcher: ["/signup", "/login", "/watchlist"],
 };

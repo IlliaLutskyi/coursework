@@ -1,12 +1,11 @@
 "use client";
-import { Box, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { Toaster, toaster } from "@/components/ui/toaster";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { FaRegBookmark } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa";
-import ClipLoader from "react-spinners/ClipLoader";
 type props = {
   movieId: number | undefined;
   type: string;
@@ -48,7 +47,7 @@ const WatchListButton = ({ movieId, type }: props) => {
     }
     checkWatchList();
     return () => controller.abort();
-  }, [status]);
+  }, [status, movieId]);
 
   // ====================================================
   // Showing toasters
@@ -87,6 +86,8 @@ const WatchListButton = ({ movieId, type }: props) => {
   // Handle click event
   // ====================================================
   async function handleWatchListClick() {
+    setMessage("");
+    setError("");
     if (status === "loading") return;
     if (!session?.user?.id) {
       return router.push(`/login?movieId=${movieId}&type=${type}`);

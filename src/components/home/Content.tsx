@@ -1,9 +1,7 @@
-import { Box, Container, Heading } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
 import MovieCarousel from "./MovieCarousel";
 import TrailerCarousel from "./TrailerCarousel";
-import { TVshow } from "@/models/tvshow";
-import { Movie } from "@/models/movie";
-import connectDb from "@/lib/db";
+
 import { TFetchedLatestMovie, TFetchedMovies } from "@/app/page";
 import { getRandomPoster } from "@/utils/getRandomPoster";
 type props = {

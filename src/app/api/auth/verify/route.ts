@@ -20,7 +20,7 @@ export async function GET(req: Request) {
     console.log(user);
     if (!user) return NextResponse.json({ message: "User was not found" });
     return NextResponse.json({ message: "Verification went successfully" });
-  } catch (err) {
+  } catch {
     return NextResponse.json(
       {
         message: "Token is incorrect or expired",

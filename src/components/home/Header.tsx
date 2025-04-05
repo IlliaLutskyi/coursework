@@ -1,7 +1,6 @@
-import { Box, Input, Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import React from "react";
-import { InputGroup } from "../ui/input-group";
-import { CiSearch } from "react-icons/ci";
+
 import { TFetchedMovies } from "@/app/page";
 import { getRandomPoster } from "@/utils/getRandomPoster";
 import SearchBar from "./SearchBar";

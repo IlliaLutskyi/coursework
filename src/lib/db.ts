@@ -8,7 +8,7 @@ export default async function connectDb() {
     return;
   }
   try {
-    const db = await mongoose.connect(MONGODB_URI);
+    await mongoose.connect(MONGODB_URI);
   } catch (err) {
     console.log("Hekngvjienorignierngiuerngiernignueuirbguiebrguienrubg");
     console.log("DB error:", err);

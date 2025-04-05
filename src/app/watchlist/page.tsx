@@ -15,7 +15,7 @@ export type watchlist = {
     refType: "Movie" | "TVshow";
   }[];
 } | null;
-const page = async () => {
+const WatchlistPage = async () => {
   await connectDb();
   const session = await getServerSession(authOptions);
   const watchlist = await getWatchlist(session?.user.id as string);
@@ -40,4 +40,4 @@ async function getWatchlist(userId: string): Promise<watchlist> {
 
   return watchlist;
 }
-export default page;
+export default WatchlistPage;

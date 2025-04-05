@@ -2,11 +2,7 @@ import { Box } from "@chakra-ui/react";
 import React from "react";
 
 const Footer = () => {
-  return (
-    <Box w="100%" py="2rem" bg="black" color="white" textAlign={"center"}>
-      Resources
-    </Box>
-  );
+  return <Box className="w-full py-8 bg-black "></Box>;
 };
 
 export default Footer;

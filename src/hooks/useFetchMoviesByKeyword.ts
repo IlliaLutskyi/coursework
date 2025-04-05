@@ -1,4 +1,3 @@
-import { TMovie } from "@/models/movie";
 import { useEffect, useState } from "react";
 import { movies } from "@/app/reviews/page";
 

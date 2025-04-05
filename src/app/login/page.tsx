@@ -7,7 +7,7 @@ import React, { FormEvent, useEffect, useState } from "react";
 import { BsGithub } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 
-const page = () => {
+const Login = () => {
   const [formData, setFormData] = useState({
     password: "",
     email: "",
@@ -161,4 +161,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Login;

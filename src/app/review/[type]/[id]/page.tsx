@@ -3,7 +3,7 @@ import CastContent from "@/components/review/CastContent";
 import MovieContent from "@/components/review/MovieContent";
 import connectDb from "@/lib/db";
 import { Cast, TCast } from "@/models/cast";
-import { Genre, TGenre } from "@/models/genre";
+import { Genre } from "@/models/genre";
 import { Movie, TMovie } from "@/models/movie";
 import { TTVshow, TVshow } from "@/models/tvshow";
 import { TTVshowCast, TVshowCast } from "@/models/tvshowcast";
@@ -11,7 +11,7 @@ import { Box } from "@chakra-ui/react";
 import React from "react";
 
 type params = { params: { type: string; id: string } };
-const Page = async ({ params }: params) => {
+const MoviePage = async ({ params }: params) => {
   const { type, id } = await params;
   await connectDb();
   if (type === "movie") {
@@ -67,4 +67,4 @@ const Page = async ({ params }: params) => {
   }
 };
 
-export default Page;
+export default MoviePage;
