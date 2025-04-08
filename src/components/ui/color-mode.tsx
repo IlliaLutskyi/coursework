@@ -7,6 +7,7 @@ import * as React from "react";
 import { LuMoon, LuSun } from "react-icons/lu";
 
 // Directly use React.ComponentProps<typeof ThemeProvider> for props in ColorModeProvider
+export type ColorModeProviderProps = React.ComponentProps<typeof ThemeProvider>;
 export function ColorModeProvider(
   props: React.ComponentProps<typeof ThemeProvider>
 ) {

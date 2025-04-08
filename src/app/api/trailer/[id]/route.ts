@@ -1,7 +1,7 @@
 import { Trailer } from "@/models/trailer";
 import { NextResponse } from "next/server";
 type params = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 export async function GET(req: Request, { params }: params) {
   const { id } = await params;

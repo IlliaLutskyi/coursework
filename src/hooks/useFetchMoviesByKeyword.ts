@@ -1,5 +1,5 @@
+import { movies } from "@/components/reviews/Reviews";
 import { useEffect, useState } from "react";
-import { movies } from "@/app/reviews/page";
 
 export function useFetchMoviesByKeyword(
   keyword: string | null,

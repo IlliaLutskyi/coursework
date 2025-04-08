@@ -1,9 +1,10 @@
 import { Box, Em, Heading, Text } from "@chakra-ui/react";
 import React from "react";
 import OptimizedImage from "../OptimizedImage";
-import { movies } from "@/app/reviews/page";
+
 import { shortenText } from "@/utils/shortenOverview";
 import Link from "next/link";
+import { movies } from "./Reviews";
 type props = {
   movies: movies | null | undefined;
 };

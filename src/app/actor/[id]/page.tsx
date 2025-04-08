@@ -6,11 +6,11 @@ import { Actor, TActor } from "@/models/actor";
 import { Cast } from "@/models/cast";
 import { Movie, TMovie } from "@/models/movie";
 import { Box, Heading } from "@chakra-ui/react";
-
 import Link from "next/link";
-const ActorPage = async ({ params }: { params: Promise<{ id: string }> }) => {
+type params = { params: Promise<{ id: string }> };
+const ActorPage = async ({ params }: params) => {
   await connectDb();
-  const id = (await params).id;
+  const { id } = await params;
   const [actor, movie_ids] = await Promise.all([
     Actor.findById(Number(id)).select({ _id: 0 }).lean() as Promise<
       Omit<TActor, "_id">
@@ -23,7 +23,7 @@ const ActorPage = async ({ params }: { params: Promise<{ id: string }> }) => {
     return (
       <Box>
         No information was found about this actor
-        <Link href="/" className="hover:underline text-blue-300">
+        <Link href="/" className="hover:underline ml-2 text-blue-300">
           Go back to home page
         </Link>
       </Box>

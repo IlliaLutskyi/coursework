@@ -19,10 +19,7 @@ type link = {
   title: string;
 };
 type links = link[];
-const links: links = [
-  { href: "/", title: "Home" },
-  { href: "/aboutProject", title: "About Project" },
-];
+const links: links = [{ href: "/", title: "Home" }];
 const Menu = () => {
   const [open, setOpen] = useState(false);
   const path = usePathname();

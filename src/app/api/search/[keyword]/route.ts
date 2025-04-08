@@ -1,9 +1,9 @@
 import { Movie } from "@/models/movie";
 import { NextResponse } from "next/server";
-interface IParams {
-  keyword: string;
-}
-export async function GET(req: Request, { params }: { params: IParams }) {
+type TParams = {
+  params: Promise<{ keyword: string }>;
+};
+export async function GET(req: Request, { params }: TParams) {
   const { keyword } = await params;
   try {
     const movies = await Movie.aggregate([

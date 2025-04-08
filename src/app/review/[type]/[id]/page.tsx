@@ -10,7 +10,7 @@ import { TTVshowCast, TVshowCast } from "@/models/tvshowcast";
 import { Box } from "@chakra-ui/react";
 import React from "react";
 
-type params = { params: { type: string; id: string } };
+type params = { params: Promise<{ type: string; id: string }> };
 const MoviePage = async ({ params }: params) => {
   const { type, id } = await params;
   await connectDb();
