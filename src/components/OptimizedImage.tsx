@@ -8,6 +8,7 @@ type props = {
 };
 const OptimizedImage = ({ path, className = "rounded-md w-full" }: props) => {
   const [loading, setLoading] = useState(true);
+
   return (
     <Skeleton loading={loading}>
       <Image

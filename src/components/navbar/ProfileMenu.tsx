@@ -6,6 +6,7 @@ import React from "react";
 
 const ProfileMenu = () => {
   const { data: session } = useSession();
+
   return (
     <>
       {session?.user && (

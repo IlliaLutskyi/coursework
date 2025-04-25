@@ -85,6 +85,13 @@ const Watchlist = ({ watchlist }: props) => {
       </Box>
       <Box className="flex flex-col gap-4 p-4">
         {filteredWatchlist?.map((movies, index) => {
+          const posterPath =
+            movies.movie.poster_path.includes(".jpg") ||
+            movies.movie.poster_path.includes(".png") ||
+            movies.movie.poster_path.includes(".webp") ||
+            movies.movie.poster_path.includes(".jpeg")
+              ? `https://image.tmdb.org/t/p/w300${movies.movie.poster_path}`
+              : `https://pink-genetic-monkey-993.mypinata.cloud/ipfs/${movies.movie.poster_path}`;
           return (
             <Link
               key={index}
@@ -94,9 +101,7 @@ const Watchlist = ({ watchlist }: props) => {
             >
               <Box className="grid grid-cols-[1fr_11fr] hover:shadow-2xl duration-500 shadow-md gap-4">
                 <Box>
-                  <OptimizedImage
-                    path={`https://image.tmdb.org/t/p/w500${movies.movie.poster_path}`}
-                  />
+                  <OptimizedImage path={posterPath} />
                 </Box>
                 <Box className="flex flex-col gap-2">
                   <Box>

@@ -11,14 +11,29 @@ type props = {
   genres: { name: string }[];
 };
 const MovieContent = ({ movie, type, genres }: props) => {
+  const backdropPath =
+    movie?.backdrop_path.includes(".jpg") ||
+    movie?.backdrop_path.includes(".png") ||
+    movie?.backdrop_path.includes(".webp") ||
+    movie?.backdrop_path.includes(".jpeg")
+      ? `https://image.tmdb.org/t/p/original${movie?.backdrop_path}`
+      : `https://pink-genetic-monkey-993.mypinata.cloud/ipfs/${movie?.backdrop_path}`;
+  const posterPath =
+    movie?.poster_path.includes(".jpg") ||
+    movie?.poster_path.includes(".png") ||
+    movie?.poster_path.includes(".webp") ||
+    movie?.poster_path.includes(".jpeg")
+      ? `https://image.tmdb.org/t/p/w500${movie?.poster_path}`
+      : `https://pink-genetic-monkey-993.mypinata.cloud/ipfs/${movie?.poster_path}`;
+
   return (
     <Box
       className="grid sm:grid-cols-[1fr,4fr] gap-8 w-[100%] text-white p-8 "
-      bg={`linear-gradient(rgba(0,0,0,0.7) , rgba(0,0,0,0.7) ),url("https://image.tmdb.org/t/p/original${movie?.backdrop_path}") center/cover no-repeat `}
+      bg={`linear-gradient(rgba(0,0,0,0.7) , rgba(0,0,0,0.7) ),url(${backdropPath}) center/cover no-repeat `}
     >
       <Box>
         <OptimizedImage
-          path={`https://image.tmdb.org/t/p/w300${movie?.poster_path}`}
+          path={posterPath}
           className="sm:w-full w-1/2 m-auto rounded-md"
         />
       </Box>

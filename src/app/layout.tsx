@@ -20,7 +20,7 @@ export default function RootLayout({
         <ChakraWraper>
           <AuthWraper>
             <NavigationBar />
-            <main className="flex-grow ">{children}</main>
+            <main className="flex-grow">{children}</main>
             <Footer />
           </AuthWraper>
         </ChakraWraper>

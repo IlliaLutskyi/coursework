@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
   },
 
   images: {
-    domains: ["image.tmdb.org"], // ✅ Allow TMDB images
+    domains: ["image.tmdb.org", "pink-genetic-monkey-993.mypinata.cloud"], // ✅ Allow TMDB images
   },
 };
 

@@ -13,7 +13,6 @@ type props = {
 
 const WatchListButton = ({ movieId, type }: props) => {
   const { data: session, status } = useSession();
-
   const [isAdded, setIsAdded] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -28,7 +27,7 @@ const WatchListButton = ({ movieId, type }: props) => {
     async function checkWatchList() {
       try {
         const res = await fetch(
-          `/api/checkWatchList?movieId=${movieId}${
+          `/api/watchlist/checkWatchList?movieId=${movieId}${
             session?.user.id ? "&userId=" + session.user.id : ""
           }`,
           { signal }
@@ -50,7 +49,7 @@ const WatchListButton = ({ movieId, type }: props) => {
   }, [status, movieId]);
 
   // ====================================================
-  // Showing toasters
+  // Showing toast messages
   // ====================================================
   useEffect(() => {
     if (message) {
@@ -95,7 +94,7 @@ const WatchListButton = ({ movieId, type }: props) => {
     try {
       setLoading(true);
       const res = await fetch(
-        `/api/toggleWatchList?userId=${session.user.id}&movieId=${movieId}&type=${type}`,
+        `/api/watchlist/toggleWatchList?userId=${session.user.id}&movieId=${movieId}&type=${type}`,
         { method: "POST" }
       );
       const data: { message: string; added: boolean } = await res.json();

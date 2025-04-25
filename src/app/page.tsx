@@ -27,6 +27,7 @@ export type TFetchedLatestMovie = {
 };
 export default async function Home() {
   const [topMovies, trendingMovies, latestMovies, tvshows] = await getMovies();
+
   return (
     <Box display="flex" flexDirection={"column"} gap="2rem">
       <Header trendingMovies={trendingMovies} />

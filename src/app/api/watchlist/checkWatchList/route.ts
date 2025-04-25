@@ -1,3 +1,4 @@
+import connectDb from "@/lib/db";
 import { WatchList } from "@/models/watchList";
 import { NextResponse } from "next/server";
 
@@ -7,6 +8,7 @@ export async function GET(req: Request) {
   const userId = searchParams.get("userId");
   const movieId = searchParams.get("movieId");
   try {
+    await connectDb();
     if (!userId) {
       return NextResponse.json({ message: "" }, { status: 400 });
     }

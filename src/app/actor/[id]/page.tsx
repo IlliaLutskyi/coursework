@@ -1,4 +1,7 @@
+import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import ActorContent from "@/components/actor/ActorContent";
+import EditButton from "@/components/actor/EditButton";
+import EditForm from "@/components/actor/EditForm";
 import Info from "@/components/actor/Info";
 import KnownForSwiper from "@/components/actor/KnownForSwiper";
 import connectDb from "@/lib/db";
@@ -6,15 +9,16 @@ import { Actor, TActor } from "@/models/actor";
 import { Cast } from "@/models/cast";
 import { Movie, TMovie } from "@/models/movie";
 import { Box, Heading } from "@chakra-ui/react";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
 type params = { params: Promise<{ id: string }> };
 const ActorPage = async ({ params }: params) => {
   await connectDb();
   const { id } = await params;
+  const session = await getServerSession(authOptions);
   const [actor, movie_ids] = await Promise.all([
-    Actor.findById(Number(id)).select({ _id: 0 }).lean() as Promise<
-      Omit<TActor, "_id">
-    > | null,
+    Actor.findById(Number(id))
+    .lean() as Promise<TActor> | null,
     Cast.find({ "cast.id": Number(id) })
       .select({ tmdb_movie_id: 1, _id: 0 })
       .lean() as Promise<{ tmdb_movie_id: number }[]> | [],
@@ -49,6 +53,12 @@ const ActorPage = async ({ params }: params) => {
           <Heading className="text-lg font-bold mb-2">Known For</Heading>
           <KnownForSwiper movies={movies} />
         </Box>
+      )}
+      {session?.user.isAdmin && (
+        <>
+          <EditButton actor={actor} />
+          <EditForm />
+        </>
       )}
     </Box>
   );

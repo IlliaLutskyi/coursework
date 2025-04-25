@@ -14,7 +14,15 @@ export async function middleware(req: NextRequest) {
   if (url.pathname === "/watchlist" && !token) {
     return NextResponse.redirect(new URL("/", req.url));
   }
+  if (
+    url.pathname === "/admin" &&
+    token &&
+    "isAdmin" in token &&
+    !token.isAdmin
+  ) {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
 }
 export const config = {
-  matcher: ["/signup", "/login", "/watchlist"],
+  matcher: ["/signup", "/login", "/watchlist", "/admin"],
 };

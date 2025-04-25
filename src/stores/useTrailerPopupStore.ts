@@ -22,7 +22,7 @@ const initialStates: InitialStates = {
 
 export const useTrailerPopupStore = create<TrailerPopupStore>((setState) => ({
   ...initialStates,
-  toggle: () => setState((state) => ({ isOpen: !state.isOpen })),
+  toggle: () => setState((states) => ({ isOpen: !states.isOpen })),
   setTrailerId: (id) => setState(() => ({ trailer_id: id })),
   setMovieTitle: (title) => setState(() => ({ movie_title: title })),
 }));

@@ -13,6 +13,13 @@ const KnownForSwiper = ({ movies }: props) => {
       id="scroll_container"
     >
       {movies?.map((movie, index) => {
+        const path =
+          movie?.poster_path.includes(".jpg") ||
+          movie?.poster_path.includes(".png") ||
+          movie?.poster_path.includes(".webp") ||
+          movie?.poster_path.includes(".jpeg")
+            ? `https://image.tmdb.org/t/p/w500${movie?.poster_path}`
+            : `https://pink-genetic-monkey-993.mypinata.cloud/ipfs/${movie?.poster_path}`;
         return (
           <Link
             href={`/review/movie/${movie._id}`}
@@ -21,9 +28,7 @@ const KnownForSwiper = ({ movies }: props) => {
           >
             <Box>
               <Box>
-                <OptimizedImage
-                  path={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
-                />
+                <OptimizedImage path={path} />
               </Box>
               <Box textAlign={"center"}>
                 <Text

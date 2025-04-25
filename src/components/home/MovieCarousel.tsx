@@ -15,6 +15,13 @@ const MovieCarousel = ({
         id="scroll_container"
       >
         {movies?.map((movie, index) => {
+          const path =
+            movie?.poster_path.includes(".jpg") ||
+            movie?.poster_path.includes(".png") ||
+            movie?.poster_path.includes(".webp") ||
+            movie?.poster_path.includes(".jpeg")
+              ? `https://image.tmdb.org/t/p/w300${movie?.poster_path}`
+              : `https://pink-genetic-monkey-993.mypinata.cloud/ipfs/${movie?.poster_path}`;
           return (
             <Link
               href={`/review/${
@@ -26,7 +33,7 @@ const MovieCarousel = ({
               <Box>
                 <Box>
                   <OptimizedImage
-                    path={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+                    path={path}
                     className="w-full m-auto rounded-md"
                   />
                 </Box>

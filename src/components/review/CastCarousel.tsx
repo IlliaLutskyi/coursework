@@ -14,6 +14,14 @@ const CastCarousel = ({ cast }: props) => {
       id="cast_scroll_container"
     >
       {cast?.map((character, index) => {
+        const profilePath =
+          character.profile_path?.includes(".jpg") ||
+          character.profile_path?.includes(".png") ||
+          character.profile_path?.includes(".webp") ||
+          character.profile_path?.includes(".jpeg")
+            ? `https://image.tmdb.org/t/p/original${character?.profile_path}`
+            : `https://pink-genetic-monkey-993.mypinata.cloud/ipfs/${character.profile_path}`;
+
         return (
           <Link
             href={`/actor/${character.id}`}
@@ -22,9 +30,7 @@ const CastCarousel = ({ cast }: props) => {
           >
             <Card.Root className="bg-white shadow-xl h-full ">
               {character?.profile_path ? (
-                <OptimizedImage
-                  path={`https://image.tmdb.org/t/p/original${character.profile_path}`}
-                />
+                <OptimizedImage path={profilePath} />
               ) : (
                 <FaUserAlt className="w-full h-3/4 p-2 text-black" />
               )}

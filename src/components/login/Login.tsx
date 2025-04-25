@@ -1,36 +1,37 @@
 "use client";
-import { Box, Button, Field, Heading, Input, Text } from "@chakra-ui/react";
+import { Box, Button, Heading, Text } from "@chakra-ui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { BsGithub } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
-
+import z from "zod";
+import InputField from "../InputField";
+const formDataSchema = z.object({
+  email: z.string().email().min(1, "Email is required"),
+  password: z.string(),
+});
+type formData = z.infer<typeof formDataSchema>;
 const Login = () => {
-  const [formData, setFormData] = useState({
-    password: "",
-    email: "",
+  const { register, handleSubmit, formState } = useForm<formData>({
+    resolver: zodResolver(formDataSchema),
   });
-  const router = useRouter();
   const [error, setError] = useState("");
-
   const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
   const movieId = searchParams.get("movieId");
   const type = searchParams.get("type");
+  const router = useRouter();
   useEffect(() => {
     setError("");
     if (searchParams.get("error") === "OAuthAccountNotLinked") {
       setError("This email is already linked to another login method");
       return;
     }
-
-    if (!formData.email || !formData.password) {
-      setError("All field are required");
-      return;
-    }
-  }, [formData]);
+  }, [searchParams]);
   // Handle providers
   async function handleProviderAuth(provider: "google" | "github") {
     setError("");
@@ -54,14 +55,13 @@ const Login = () => {
     }
   }
   // Handle Form Submition
-  async function handleSubmit(e: FormEvent<HTMLFormElement> | KeyboardEvent) {
-    e.preventDefault();
+  async function onSubmit(credentials: formData) {
     setLoading(true);
     try {
       const res = await signIn("credentials", {
         redirect: false,
-        email: formData.email,
-        password: formData.password,
+        email: credentials.email,
+        password: credentials.password,
       });
       if (res?.error) {
         throw new Error(res.error);
@@ -76,12 +76,11 @@ const Login = () => {
   return (
     <form
       className="flex flex-col gap-2 justify-center sm:w-1/2 w-3/4 mx-auto shadow-2xl my-3 p-4 bg-white rounded-md "
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit(onSubmit)}
       onKeyDown={(e) => {
         if (e.key.toLowerCase() === "enter") {
-          handleSubmit(e);
+          handleSubmit(onSubmit)();
         }
-        return;
       }}
       method="POST"
     >
@@ -91,43 +90,28 @@ const Login = () => {
           {error}
         </Text>
       )}
-      <Box>
-        <Field.Root>
-          <Field.Label>Email</Field.Label>
-          <Input
-            type="email"
-            onChange={(e) =>
-              setFormData((prev) => {
-                return { ...prev, [e.target.name]: e.target.value };
-              })
-            }
-            value={formData.email}
-            name="email"
-            placeholder="e.g. Pirat@gmail.com"
-            className="focus:border-black focus:border-[3px] bg-blue-100 p-1"
-          />
-        </Field.Root>
-      </Box>
-      <Box>
-        <Field.Root>
-          <Field.Label>Password</Field.Label>
-          <Input
-            onChange={(e) =>
-              setFormData((prev) => {
-                return { ...prev, [e.target.name]: e.target.value };
-              })
-            }
-            value={formData.password}
-            name="password"
-            type="password"
-            placeholder="e.g. P!rAt@#1d+"
-            className="focus:border-black focus:border-[3px] bg-blue-100 p-1"
-          />
-        </Field.Root>
-      </Box>
+      <InputField
+        className="focus:border-black focus:border-[3px] bg-blue-100 p-1"
+        type="email"
+        error={formState.errors.email?.message}
+        register={register}
+        label="email"
+        field="email"
+      />
+      <InputField
+        className="focus:border-black focus:border-[3px] bg-blue-100 p-1"
+        type="text"
+        error={formState.errors.password?.message}
+        register={register}
+        label="password"
+        field="password"
+      />
       <Button
         type="submit"
-        disabled={loading || (error ? true : false)}
+        disabled={
+          loading ||
+          (formState.errors.email || formState.errors.password ? true : false)
+        }
         className="self-end bg-black hover:bg-opacity-70 duration-0 rounded-md p-2 text-white"
       >
         {loading ? "Submiting..." : " Submit"}

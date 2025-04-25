@@ -3,15 +3,21 @@ import { Box, Heading, Text } from "@chakra-ui/react";
 import OptimizedImage from "../OptimizedImage";
 
 type props = {
-  actor: Omit<TActor, "_id"> | null;
+  actor: TActor;
 };
 const ActorContent = ({ actor }: props) => {
+  const profilePath =
+    actor.profile_path?.includes(".jpg") ||
+    actor.profile_path?.includes(".png") ||
+    actor.profile_path?.includes(".webp") ||
+    actor.profile_path?.includes(".jpeg")
+      ? `https://image.tmdb.org/t/p/original${actor?.profile_path}`
+      : `https://pink-genetic-monkey-993.mypinata.cloud/ipfs/${actor.profile_path}`;
+
   return (
     <Box className="grid sm:grid-cols-[1fr_3fr] gap-8 mx-8 mt-8">
       <Box>
-        <OptimizedImage
-          path={`https://image.tmdb.org/t/p/original${actor?.profile_path}`}
-        />
+        <OptimizedImage path={profilePath} />
       </Box>
 
       <Box className="flex flex-col gap-4">

@@ -1,3 +1,4 @@
+import connectDb from "@/lib/db";
 import { TWatchList, WatchList } from "@/models/watchList";
 import { NextResponse } from "next/server";
 
@@ -14,6 +15,7 @@ export async function POST(req: Request) {
         { message: "UserId are required", added: false },
         { status: 400 }
       );
+    await connectDb();
     const watchList: TWatchList | null = await WatchList.findOne({
       userId,
     }).lean();

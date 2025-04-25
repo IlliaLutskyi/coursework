@@ -1,3 +1,4 @@
+import connectDb from "@/lib/db";
 import { Trailer } from "@/models/trailer";
 import { NextResponse } from "next/server";
 type params = {
@@ -6,6 +7,7 @@ type params = {
 export async function GET(req: Request, { params }: params) {
   const { id } = await params;
   try {
+    await connectDb();
     const trailer = await Trailer.findById(id).lean();
     if (!trailer) {
       return NextResponse.json(

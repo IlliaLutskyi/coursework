@@ -1,31 +1,28 @@
 "use client";
-import { Box, Button, Field, Heading, Input, Text } from "@chakra-ui/react";
+import { Box, Button, Heading, Text } from "@chakra-ui/react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import React, { FormEvent, KeyboardEvent, useEffect, useState } from "react";
+import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { BsGithub } from "react-icons/bs";
 import Link from "next/link";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import InputField from "@/components/InputField";
+const userSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email().min(1, "Email is required"),
+  password: z.string().min(6, "Password has to contain more then 6 chars"),
+});
+type formData = z.infer<typeof userSchema>;
 const Signup = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    password: "",
-    email: "",
+  const { register, handleSubmit, formState, reset } = useForm<formData>({
+    resolver: zodResolver(userSchema),
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  useEffect(() => {
-    setError("");
-    if (!formData.email || !formData.name || !formData.password) {
-      setError("All field are required");
-      return;
-    }
-    if (formData.password.length <= 6) {
-      setError("Password has to contain more then 6 chars");
-      return;
-    }
-  }, [formData]);
   async function handleProviderAuth(provider: "google" | "github") {
     setError("");
     setLoading(true);
@@ -46,24 +43,23 @@ const Signup = () => {
       setLoading(false);
     }
   }
-  async function handleSubmit(e: FormEvent<HTMLFormElement> | KeyboardEvent) {
-    e.preventDefault();
+  async function onSubmit(user: formData) {
     setLoading(true);
     try {
       const res = await fetch("/api/auth/signup", {
         method: "POST",
         body: JSON.stringify({
-          name: formData.name.trim(),
-          password: formData.password.trim(),
-          email: formData.email.trim(),
+          name: user.name.trim(),
+          password: user.password.trim(),
+          email: user.email.trim(),
         }),
       });
       const data: { message: string } = await res.json();
       if (!res.ok) {
         throw new Error(data.message);
       }
+      reset({ email: "", password: "", name: "" });
       setError("");
-      setFormData({ name: "", password: "", email: "" });
       localStorage.removeItem("expireIn");
       router.replace("/verificationEmail");
     } catch (err) {
@@ -79,10 +75,10 @@ const Signup = () => {
   return (
     <form
       className="flex flex-col gap-2 justify-center sm:w-1/2 w-3/4 mx-auto shadow-2xl my-3 p-4 bg-white rounded-md "
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit(onSubmit)}
       onKeyDown={(e) => {
         if (e.key.toLowerCase() === "enter") {
-          handleSubmit(e);
+          handleSubmit(onSubmit)();
         }
         return;
       }}
@@ -94,59 +90,40 @@ const Signup = () => {
           {error}
         </Text>
       )}
-      <Box>
-        <Field.Root>
-          <Field.Label>Name</Field.Label>
-          <Input
-            onChange={(e) =>
-              setFormData((prev) => {
-                return { ...prev, [e.target.name]: e.target.value };
-              })
-            }
-            value={formData.name}
-            name="name"
-            placeholder="e.g. Pirat"
-            className="focus:border-black focus:border-[3px] bg-blue-100 p-1"
-          />
-        </Field.Root>
-      </Box>
-      <Box>
-        <Field.Root>
-          <Field.Label>Email</Field.Label>
-          <Input
-            onChange={(e) =>
-              setFormData((prev) => {
-                return { ...prev, [e.target.name]: e.target.value };
-              })
-            }
-            value={formData.email}
-            name="email"
-            type="email"
-            placeholder="e.g. Pirat@gmail.com"
-            className="focus:border-black focus:border-[3px] bg-blue-100 p-1"
-          />
-        </Field.Root>
-      </Box>
-      <Box>
-        <Field.Root>
-          <Field.Label>Password</Field.Label>
-          <Input
-            onChange={(e) =>
-              setFormData((prev) => {
-                return { ...prev, [e.target.name]: e.target.value };
-              })
-            }
-            value={formData.password}
-            name="password"
-            type="password"
-            placeholder="e.g. P!rAt@#1d+"
-            className="focus:border-black focus:border-[3px] bg-blue-100 p-1"
-          />
-        </Field.Root>
-      </Box>
+      <InputField
+        type="text"
+        label="name"
+        error={formState.errors.name?.message}
+        register={register}
+        field="name"
+        className="focus:border-black focus:border-[3px] bg-blue-100 p-1"
+      />
+      <InputField
+        type="email"
+        label="email"
+        error={formState.errors.email?.message}
+        register={register}
+        field="email"
+        className="focus:border-black focus:border-[3px] bg-blue-100 p-1"
+      />
+      <InputField
+        type="text"
+        label="password"
+        error={formState.errors.password?.message}
+        register={register}
+        field="password"
+        className="focus:border-black focus:border-[3px] bg-blue-100 p-1"
+      />
       <Button
         type="submit"
-        disabled={loading || (error ? true : false)}
+        disabled={
+          loading ||
+          (formState.errors.name ||
+          formState.errors.email ||
+          formState.errors.password
+            ? true
+            : false)
+        }
         className="self-end bg-black hover:bg-opacity-70 duration-0 rounded-md p-2 text-white"
       >
         {loading ? "Submiting..." : " Submit"}

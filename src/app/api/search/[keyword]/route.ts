@@ -1,3 +1,4 @@
+import connectDb from "@/lib/db";
 import { Movie } from "@/models/movie";
 import { NextResponse } from "next/server";
 type TParams = {
@@ -6,6 +7,7 @@ type TParams = {
 export async function GET(req: Request, { params }: TParams) {
   const { keyword } = await params;
   try {
+    await connectDb();
     const movies = await Movie.aggregate([
       {
         $search: {

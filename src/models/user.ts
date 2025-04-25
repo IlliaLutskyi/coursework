@@ -7,6 +7,7 @@ type TUser = {
   password: string;
   isVerified: boolean;
   verificationToken: string;
+  isAdmin: boolean;
 };
 type TUserSchema = TUser & Document;
 const userSchema = new mongoose.Schema<TUserSchema>({
@@ -32,6 +33,11 @@ const userSchema = new mongoose.Schema<TUserSchema>({
   verificationToken: {
     type: String,
     default: "",
+  },
+  isAdmin: {
+    type: Boolean,
+    required: true,
+    default: false,
   },
 });
 userSchema.post("save", async (doc: TUserSchema) => {
